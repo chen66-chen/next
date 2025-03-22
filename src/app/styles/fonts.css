@@ -1,0 +1,56 @@
+/* 字体设置 */
+@font-face {
+  font-family: 'KuaiKanShiJieTi';
+  src: url('/fonts/KuaiKanShiJieTi.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'MiSans';
+  src: url('/fonts/MiSans-Normal.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HanTang';
+  src: url('/fonts/HanTangLiDianHeiJianTi.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* 书法和未来风格字体 */
+@font-face {
+  font-family: 'SongTi';
+  src: url('/fonts/calligraphy/SongTi.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'KaiTi';
+  src: url('/fonts/calligraphy/KaiTi.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FutureFont';
+  src: url('/fonts/calligraphy/FutureFont.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 字体类 */
+.font-songti {
+  font-family: 'SongTi', serif;
+}
+
+.font-kaiti {
+  font-family: 'KaiTi', serif;
+}
+
+.font-future {
+  font-family: 'FutureFont', sans-serif;
+} 

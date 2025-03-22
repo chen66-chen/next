@@ -1,0 +1,149 @@
+/* 文字特效动画 */
+@keyframes inkDrop {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.animate-ink {
+  animation: inkDrop 2s ease-out;
+}
+
+/* 未来科技风文字扫描效果 */
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-scan::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  animation: scanLine 2s infinite linear;
+}
+
+/* 墨水扩散效果 */
+@keyframes inkSpread {
+  0% {
+    background-size: 0% 2px;
+  }
+  100% {
+    background-size: 100% 2px;
+  }
+}
+
+.ink-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.ink-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, currentColor, transparent);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  animation: inkSpread 1s ease-out forwards;
+}
+
+/* 加载动画 */
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.loading-pulse {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* 彗星特效样式 */
+@keyframes cometGlow {
+  0% {
+    box-shadow: 0 0 4px rgba(100, 217, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(100, 217, 255, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 4px rgba(100, 217, 255, 0.3);
+  }
+}
+
+#comet-container div {
+  animation: cometGlow 1.5s ease-in-out infinite;
+}
+
+/* AI助手样式 */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+.ai-assistant-button {
+  animation: pulse 2s infinite;
+}
+
+/* 淡入动画效果 */
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-in-out;
+}
+  
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 闪烁光标效果 */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+} 

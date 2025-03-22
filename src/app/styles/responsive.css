@@ -1,0 +1,57 @@
+/* 响应式布局 - 主内容区域根据导航栏状态调整边距 */
+@media (min-width: 768px) {
+  .main-content.nav-expanded {
+    margin-left: 16rem; /* 导航栏显示时的边距 */
+  }
+
+  .main-content.nav-collapsed {
+    margin-left: 0; /* 导航栏隐藏时无边距 */
+  }
+}
+
+/* 平滑过渡效果 */
+.main-content {
+  transition: margin-left 0.3s ease;
+}
+
+/* 移动设备优化 */
+@media (max-width: 640px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  .post-card {
+    margin-bottom: 1rem;
+  }
+  
+  .tech-tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* 平板设备优化 */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 桌面设备优化 */
+@media (min-width: 1025px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 大屏幕设备优化 */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+} 

@@ -1,0 +1,16 @@
+{
+  "id": "09a59aef-4efe-4939-8044-80cbd5105fc9",
+  "title": "Markdown 快速入门示例",
+  "description": " ### 基本语法...",
+  "content": "## Markdown 快速入门示例\n\n### 基本语法\n\n**粗体文本** 和 *斜体文本*\n\n#### 列表示例\n- 无序列表项目1\n- 无序列表项目2\n  - 嵌套项目\n\n1. 有序列表项目1\n2. 有序列表项目2\n\n### 代码示例\n```javascript\n// 这是一段JavaScript代码\nfunction hello() {\n  console.log(\"Hello, Markdown!\");\n}\n```\n\n> 这是一段引用文本\n\n[链接文本](https://example.com)\n\n![图片描述](https://ext.same-assets.com/1677884995/882917863.webp)\n\n---\n",
+  "published": true,
+  "coverImage": "https://ext.same-assets.com/2189857954/3060987925.webp",
+  "author": "Chryssolion Chen",
+  "tags": [
+    "笔记",
+    "快速发布"
+  ],
+  "date": "2025-03-21T14:13:33.862Z",
+  "createdAt": "2025-03-21T14:13:33.862Z",
+  "updatedAt": "2025-03-21T14:13:33.862Z"
+}

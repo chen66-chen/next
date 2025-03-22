@@ -1,0 +1,128 @@
+/* Darknet主题样式 */
+
+/* 基础暗色背景和文本颜色 */
+.darknet-theme {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+/* 导航栏样式 */
+.darknet-nav {
+  background-color: #1a1a1a;
+  border-bottom: 1px solid #333;
+}
+
+/* 卡片样式 */
+.darknet-card {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 按钮样式 */
+.darknet-button {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #444;
+}
+
+.darknet-button:hover {
+  background-color: #3a3a3a;
+}
+
+/* 链接样式 */
+.darknet-link {
+  color: #6c9eff;
+}
+
+.darknet-link:hover {
+  color: #90b4ff;
+  text-decoration: underline;
+}
+
+/* 输入框样式 */
+.darknet-input {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #e0e0e0;
+}
+
+.darknet-input:focus {
+  border-color: #6c9eff;
+  box-shadow: 0 0 0 2px rgba(108, 158, 255, 0.25);
+}
+
+/* 代码背景图案 */
+.darknet-code-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* 代码块样式 */
+.darknet-code {
+  background-color: #252525;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+/* 高亮文本 */
+.darknet-highlight {
+  background-color: #2d2d2d;
+  color: #ff79c6;
+}
+
+/* 标题样式 */
+.darknet-heading {
+  color: #bd93f9;
+  border-bottom: 1px solid #444;
+}
+
+/* 表格样式 */
+.darknet-table {
+  border-collapse: collapse;
+}
+
+.darknet-table th {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  padding: 8px;
+}
+
+.darknet-table td {
+  border: 1px solid #333;
+  padding: 8px;
+}
+
+.darknet-table tr:nth-child(even) {
+  background-color: #1e1e1e;
+}
+
+/* 分割线样式 */
+.darknet-divider {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 16px 0;
+}
+
+/* 警告提示框 */
+.darknet-alert {
+  background-color: #2d2d2d;
+  border-left: 4px solid #ff5555;
+  padding: 12px;
+  margin: 16px 0;
+}
+
+/* 成功提示框 */
+.darknet-success {
+  background-color: #2d2d2d;
+  border-left: 4px solid #50fa7b;
+  padding: 12px;
+  margin: 16px 0;
+}
+
+/* 信息提示框 */
+.darknet-info {
+  background-color: #2d2d2d;
+  border-left: 4px solid #8be9fd;
+  padding: 12px;
+  margin: 16px 0;
+} 

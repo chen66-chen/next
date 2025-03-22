@@ -1,0 +1,25 @@
+[build]
+  command = "bun run build --no-lint && mkdir -p out && cp -r .next/* out/"
+  publish = "out"
+  environment = { NODE_VERSION = "20" }
+
+[build.environment]
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  NEXT_SKIP_TYPECHECKING = "1"
+
+[dev]
+  command = "bun run dev"
+  port = 3000
+  targetPort = 3000
+  framework = "nextjs"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[images]
+  remote_images = ["https://ext.same-assets.com/*", "https://images.unsplash.com/*"]

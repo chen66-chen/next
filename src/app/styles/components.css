@@ -1,0 +1,209 @@
+/* 文章卡片样式 */
+.post-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  background: linear-gradient(to bottom, #ffffff, #f0f8ff);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* 文章卡片小标签样式 */
+.post-tag {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #666;
+  margin-right: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.post-tag:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 输入框和按钮互动效果 */
+input, button, textarea, select {
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.4s ease-out, opacity 0.3s ease-out;
+}
+
+button:active:after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  transition: 0s;
+}
+
+/* 增强文本可读性 */
+.text-subtle {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* 网格布局增强 */
+.grid {
+  display: grid;
+  grid-gap: 1.5rem;
+}
+
+/* 优化文本排版 */
+p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+/* 字体权重优化 */
+h1 {
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+h3 {
+  font-weight: 600;
+}
+
+h4 {
+  font-weight: 500;
+}
+
+/* 高亮关键词 */
+.keyword-highlight {
+  position: relative;
+  background-color: rgba(253, 224, 71, 0.3);
+  border-bottom: 1px dashed #f59e0b;
+  border-radius: 2px;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.keyword-highlight:hover {
+  background-color: rgba(253, 224, 71, 0.5);
+}
+
+.dark .keyword-highlight {
+  background-color: rgba(253, 224, 71, 0.15);
+  border-bottom: 1px dashed #d97706;
+}
+
+.dark .keyword-highlight:hover {
+  background-color: rgba(253, 224, 71, 0.25);
+}
+
+/* 技术节点 */
+.tech-node {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tech-node:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tech-node-sub {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 5px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 10px;
+}
+
+.tech-node-sub:hover {
+  transform: translateX(5px);
+}
+
+/* 统一的技术标签色彩系统 */
+.tech-tag {
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.tech-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* 各类技术标签的特定颜色 */
+.tech-tag.html {
+  background: linear-gradient(135deg, #FF8A65 0%, #E64A19 100%);
+  color: white;
+}
+
+.tech-tag.css {
+  background: linear-gradient(135deg, #64B5F6 0%, #1976D2 100%);
+  color: white;
+}
+
+.tech-tag.js {
+  background: linear-gradient(135deg, #FFD54F 0%, #FFA000 100%);
+  color: #333;
+}
+
+.tech-tag.python {
+  background: linear-gradient(135deg, #4FC3F7 0%, #0277BD 100%);
+  color: white;
+}
+
+.tech-tag.java {
+  background: linear-gradient(135deg, #FF5252 0%, #D32F2F 100%);
+  color: white;
+}
+
+.tech-tag.cpp {
+  background: linear-gradient(135deg, #7986CB 0%, #303F9F 100%);
+  color: white;
+}
+
+.tech-tag.ai {
+  background: linear-gradient(135deg, #81C784 0%, #388E3C 100%);
+  color: white;
+} 
