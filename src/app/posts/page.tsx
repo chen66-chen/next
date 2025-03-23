@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { posts } from '../page';
 
-export default function FilteredPosts() {
+// 搜索参数组件
+function PostsWithSearchParams() {
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
   const tag = searchParams.get('tag');
@@ -95,5 +96,21 @@ export default function FilteredPosts() {
         )}
       </div>
     </div>
+  );
+}
+
+// 使用Suspense包裹使用useSearchParams的组件
+export default function FilteredPosts() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">加载中...</p>
+        </div>
+      </div>
+    }>
+      <PostsWithSearchParams />
+    </Suspense>
   );
 } 

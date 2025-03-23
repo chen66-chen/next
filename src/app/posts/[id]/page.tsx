@@ -1408,7 +1408,7 @@ iptables -A INPUT -s 198.51.100.34 -d 203.0.110.1 -p tcp --dport 80 -j DROP</cod
     description: "从零开始学习Linux的基本概念，包括常用命令、文件系统和基本操作。",
     date: "2025-03-18",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/2117173837/4046808622.webp",
+    coverImage: "/images/4.jpg",
     category: "Linux",
     tags: ["Linux", "入门", "命令行"],
     content: `
@@ -1908,6 +1908,1014 @@ done
 Shell脚本是Linux系统管理和自动化的强大工具。通过本文介绍的基础知识和技巧，你可以开始编写自己的脚本，自动化日常任务，提高工作效率。随着经验的积累，你可以开发更复杂、更强大的脚本来解决各种问题。
 
 记住，Shell脚本的真正力量在于它能够无缝地将系统命令和工具组合在一起，创建出强大的自动化解决方案。持续学习和实践是掌握Shell脚本编程的关键。
+    `,
+    style: 'style2'
+  },
+  "linux-2": {
+    id: "linux-2",
+    title: "Linux文件系统详解",
+    description: "深入理解Linux文件系统的结构、类型和管理方法，掌握文件操作的核心概念。",
+    date: "2025-03-20",
+    author: "Chryssolion Chen",
+    coverImage: "https://ext.same-assets.com/1824305649/3628065475.webp",
+    category: "Linux",
+    tags: ["Linux", "文件系统", "存储"],
+    content: `
+      <h1>Linux文件系统详解</h1>
+      
+      <p>在Linux世界中，"一切皆文件"这一理念深刻地体现了其设计哲学。文件系统作为操作系统的核心组成部分，不仅管理着数据的存储和访问，更是连接用户与硬件的重要桥梁。本文将带您深入探索Linux文件系统的奥秘，解析其结构、类型和管理方法。</p>
+      
+      <h2>文件系统层次结构标准（FHS）</h2>
+      
+      <p>Linux遵循文件系统层次结构标准（Filesystem Hierarchy Standard，FHS），定义了系统中各个目录的用途。这种标准化结构确保了不同Linux发行版之间的一致性，便于用户和管理员理解系统组织。</p>
+      
+      <div className="table-container">
+        <table className="elegant-table">
+          <thead>
+            <tr>
+              <th>目录</th>
+              <th>用途</th>
+              <th>内容示例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/</code></td>
+              <td>根目录</td>
+              <td>整个文件系统的起点</td>
+            </tr>
+            <tr>
+              <td><code>/bin</code></td>
+              <td>基本命令二进制文件</td>
+              <td>ls, cp, mv 等基础命令</td>
+            </tr>
+            <tr>
+              <td><code>/boot</code></td>
+              <td>引导加载程序文件</td>
+              <td>内核映像、初始RAM磁盘</td>
+            </tr>
+            <tr>
+              <td><code>/dev</code></td>
+              <td>设备文件</td>
+              <td>硬盘、终端、USB设备等</td>
+            </tr>
+            <tr>
+              <td><code>/etc</code></td>
+              <td>系统配置文件</td>
+              <td>网络配置、用户信息等</td>
+            </tr>
+            <tr>
+              <td><code>/home</code></td>
+              <td>用户主目录</td>
+              <td>每个用户的个人文件</td>
+            </tr>
+            <tr>
+              <td><code>/lib</code></td>
+              <td>共享库文件</td>
+              <td>系统运行所需的库文件</td>
+            </tr>
+            <tr>
+              <td><code>/media</code></td>
+              <td>可移动介质挂载点</td>
+              <td>光盘、USB设备等</td>
+            </tr>
+            <tr>
+              <td><code>/mnt</code></td>
+              <td>临时挂载点</td>
+              <td>临时文件系统</td>
+            </tr>
+            <tr>
+              <td><code>/opt</code></td>
+              <td>可选应用软件包</td>
+              <td>第三方应用程序</td>
+            </tr>
+            <tr>
+              <td><code>/proc</code></td>
+              <td>进程和内核信息</td>
+              <td>系统状态、进程信息</td>
+            </tr>
+            <tr>
+              <td><code>/root</code></td>
+              <td>root用户主目录</td>
+              <td>管理员的主目录</td>
+            </tr>
+            <tr>
+              <td><code>/run</code></td>
+              <td>运行时变量数据</td>
+              <td>系统启动以来的信息</td>
+            </tr>
+            <tr>
+              <td><code>/sbin</code></td>
+              <td>系统二进制文件</td>
+              <td>系统管理命令</td>
+            </tr>
+            <tr>
+              <td><code>/srv</code></td>
+              <td>服务数据</td>
+              <td>Web服务器文件等</td>
+            </tr>
+            <tr>
+              <td><code>/sys</code></td>
+              <td>sysfs文件系统</td>
+              <td>设备、驱动程序信息</td>
+            </tr>
+            <tr>
+              <td><code>/tmp</code></td>
+              <td>临时文件</td>
+              <td>应用程序临时数据</td>
+            </tr>
+            <tr>
+              <td><code>/usr</code></td>
+              <td>用户二进制文件和数据</td>
+              <td>大多数用户工具和应用</td>
+            </tr>
+            <tr>
+              <td><code>/var</code></td>
+              <td>可变数据</td>
+              <td>日志、缓存、临时文件</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <h2>Linux文件系统类型</h2>
+      
+      <p>Linux支持多种文件系统类型，每种类型都有其特点和适用场景。理解不同类型的文件系统有助于在不同应用场景中做出最佳选择。</p>
+      
+      <h3>1. Ext系列文件系统</h3>
+      
+      <p>扩展文件系统（Extended Filesystem）是Linux最传统的文件系统家族。</p>
+      
+      <h4>Ext2</h4>
+      <p>最早的稳定版本，不支持日志功能，适用于闪存设备等不需要频繁写入的场景。</p>
+      
+      <h4>Ext3</h4>
+      <p>Ext2的改进版，引入了日志功能，提高了系统崩溃后的恢复能力。</p>
+      
+      <h4>Ext4</h4>
+      <p>当前广泛使用的版本，提供更好的性能和可靠性，支持更大的文件和文件系统，引入了延迟分配等特性。</p>
+      
+      <h3>2. XFS文件系统</h3>
+      
+      <p>XFS是一个高性能的64位日志文件系统，由SGI开发，特别适合处理大文件和高吞吐量场景。主要特点包括：</p>
+      <ul>
+        <li>优秀的扩展性和性能</li>
+        <li>高效的元数据操作</li>
+        <li>在线调整大小（仅支持增长）</li>
+        <li>延迟分配策略</li>
+      </ul>
+      
+      <h3>3. Btrfs文件系统</h3>
+      
+      <p>B-tree文件系统（通常读作"Butter FS"）是一个现代化的写时复制（Copy-on-Write）文件系统，提供了许多高级功能：</p>
+      <ul>
+        <li>内置RAID支持</li>
+        <li>快照和克隆</li>
+        <li>在线碎片整理和文件系统检查</li>
+        <li>透明压缩</li>
+        <li>数据和元数据校验和</li>
+      </ul>
+      
+      <h3>4. ZFS文件系统</h3>
+      
+      <p>尽管最初为Solaris开发，ZFS现在也可用于Linux。它提供了强大的数据管理功能：</p>
+      <ul>
+        <li>存储池管理</li>
+        <li>高级数据保护</li>
+        <li>数据压缩和重复数据删除</li>
+        <li>自动修复</li>
+        <li>快照和克隆</li>
+      </ul>
+      
+      <h2>虚拟文件系统</h2>
+      
+      <p>Linux的虚拟文件系统（VFS）是一个抽象层，为应用程序提供统一的文件系统接口，使不同的文件系统能够无缝协作。</p>
+      
+      <h3>proc文件系统</h3>
+      
+      <p>/proc是一个虚拟文件系统，它不存储实际数据，而是提供了一个接口来访问内核内部数据结构和系统信息。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">$ cat /proc/cpuinfo     # 查看CPU信息
+$ cat /proc/meminfo    # 查看内存信息
+$ cat /proc/interrupts # 查看中断信息</code></pre>
+      </div>
+      
+      <h3>sysfs文件系统</h3>
+      
+      <p>/sys提供了一个结构化的视图来表示系统硬件、内核子系统和设备驱动程序。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">$ ls /sys/devices      # 查看系统设备
+$ ls /sys/block        # 查看块设备</code></pre>
+      </div>
+      
+      <h3>tmpfs文件系统</h3>
+      
+      <p>tmpfs是一个临时文件系统，数据存储在内存中而非磁盘上，适用于存储临时数据。</p>
+      
+      <h2>文件系统管理</h2>
+      
+      <h3>创建和格式化文件系统</h3>
+      
+      <p>在分区或逻辑卷上创建文件系统是存储利用的第一步。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 在分区上创建Ext4文件系统
+$ sudo mkfs.ext4 /dev/sda1
+
+# 创建XFS文件系统
+$ sudo mkfs.xfs /dev/sdb1
+
+# 创建Btrfs文件系统
+$ sudo mkfs.btrfs /dev/sdc1</code></pre>
+      </div>
+      
+      <h3>挂载和卸载文件系统</h3>
+      
+      <p>文件系统必须挂载到目录树的某个位置才能访问其内容。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 临时挂载
+$ sudo mount /dev/sda1 /mnt/data
+
+# 卸载文件系统
+$ sudo umount /mnt/data
+
+# 在/etc/fstab中添加永久挂载条目
+$ echo "/dev/sda1 /mnt/data ext4 defaults 0 2" | sudo tee -a /etc/fstab</code></pre>
+      </div>
+      
+      <h3>检查和修复文件系统</h3>
+      
+      <p>文件系统可能因各种原因损坏，Linux提供了检查和修复工具。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 检查Ext4文件系统
+$ sudo fsck.ext4 -f /dev/sda1
+
+# 检查XFS文件系统
+$ sudo xfs_repair /dev/sdb1
+
+# 检查Btrfs文件系统
+$ sudo btrfs check /dev/sdc1</code></pre>
+      </div>
+      
+      <h2>高级文件系统特性</h2>
+      
+      <h3>逻辑卷管理（LVM）</h3>
+      
+      <p>LVM提供了灵活的存储管理方式，允许动态调整文件系统大小。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 创建物理卷、卷组和逻辑卷
+$ sudo pvcreate /dev/sda1 /dev/sda2
+$ sudo vgcreate myvg /dev/sda1 /dev/sda2
+$ sudo lvcreate -n mylv -L 10G myvg
+
+# 在逻辑卷上创建文件系统
+$ sudo mkfs.ext4 /dev/myvg/mylv
+
+# 扩展逻辑卷和文件系统
+$ sudo lvextend -L +5G /dev/myvg/mylv
+$ sudo resize2fs /dev/myvg/mylv</code></pre>
+      </div>
+      
+      <h3>RAID配置</h3>
+      
+      <p>RAID（独立磁盘冗余阵列）提供了数据冗余和性能改进。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 创建软件RAID 1（镜像）
+$ sudo mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb1 /dev/sdc1
+
+# 在RAID上创建文件系统
+$ sudo mkfs.ext4 /dev/md0</code></pre>
+      </div>
+      
+      <h3>文件系统快照</h3>
+      
+      <p>某些文件系统支持创建快照，为数据提供时间点恢复能力。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># LVM快照
+$ sudo lvcreate -L 1G -s -n mylv_snapshot /dev/myvg/mylv
+
+# Btrfs快照
+$ sudo btrfs subvolume snapshot /mnt/data /mnt/data_snapshot</code></pre>
+      </div>
+      
+      <h2>文件系统性能优化</h2>
+      
+      <p>优化文件系统配置可以显著提高系统性能。</p>
+      
+      <h3>挂载选项优化</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 使用noatime减少不必要的写入
+$ sudo mount -o remount,noatime /dev/sda1 /mnt/data
+
+# 调整日志模式
+$ sudo mount -o remount,data=writeback /dev/sda1 /mnt/data</code></pre>
+      </div>
+      
+      <h3>I/O调度器选择</h3>
+      
+      <p>不同的I/O调度器适合不同的工作负载。</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 查看当前调度器
+$ cat /sys/block/sda/queue/scheduler
+
+# 更改调度器
+$ echo "deadline" | sudo tee /sys/block/sda/queue/scheduler</code></pre>
+      </div>
+      
+      <h2>案例研究：数据恢复</h2>
+      
+      <p>了解文件系统内部工作原理在数据恢复场景中尤为重要。</p>
+      
+      <h3>常见数据丢失场景</h3>
+      <ul>
+        <li>意外删除文件</li>
+        <li>文件系统损坏</li>
+        <li>分区表错误</li>
+        <li>硬件故障</li>
+      </ul>
+      
+      <h3>数据恢复工具</h3>
+      <ul>
+        <li>TestDisk：修复分区表和恢复已删除分区</li>
+        <li>PhotoRec：恢复已删除文件</li>
+        <li>Extundelete：恢复Ext文件系统中的已删除文件</li>
+        <li>ddrescue：从损坏的存储设备创建镜像</li>
+      </ul>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 使用Extundelete恢复已删除文件
+$ sudo extundelete /dev/sda1 --restore-all
+
+# 使用ddrescue创建损坏磁盘的镜像
+$ sudo ddrescue -d -r3 /dev/sda /path/to/image /path/to/logfile</code></pre>
+      </div>
+      
+      <h2>结论</h2>
+      
+      <p>Linux文件系统是一个复杂而精妙的体系，理解其内部原理和管理方法不仅有助于日常系统维护，也是深入掌握Linux的关键。随着技术的发展，新的文件系统不断涌现，但基本概念和操作方法仍然适用。</p>
+      
+      <p>无论是个人用户还是系统管理员，掌握文件系统知识都能帮助我们更高效地管理数据，确保系统的稳定性和安全性。在实际操作中，建议根据具体需求选择合适的文件系统类型，并定期进行备份和维护，以预防数据丢失和系统故障。</p>
+    `,
+    style: 'style2'
+  },
+  "linux-3": {
+    id: "linux-3",
+    title: "Linux Shell脚本编程精通",
+    description: "全面掌握Shell脚本编程技术，从基础语法到高级应用，提升Linux系统管理与自动化能力。",
+    date: "2023-04-15",
+    author: "Chryssolion Chen",
+    coverImage: "https://ext.same-assets.com/1824305649/3628065476.webp",
+    category: "Linux",
+    tags: ["Linux", "Shell", "脚本编程", "自动化"],
+    content: `
+      <h1>Linux Shell脚本编程精通</h1>
+      
+      <p>Shell脚本是Linux系统管理和自动化的强大工具，它允许用户将一系列命令组合在一起，形成可执行的脚本文件。掌握Shell脚本编程不仅能提高工作效率，还能帮助系统管理员实现复杂的任务自动化。本文将全面介绍Shell脚本编程的基础知识、核心概念和高级技巧。</p>
+      
+      <h2>Shell基础概念</h2>
+      
+      <p>Shell是用户与Linux内核交互的接口，它接收用户输入的命令，解释执行，并将结果返回给用户。Linux系统中常见的Shell包括：</p>
+      
+      <ul>
+        <li><strong>Bash</strong> (Bourne Again Shell)：最常用的Shell，大多数Linux发行版的默认Shell</li>
+        <li><strong>Zsh</strong> (Z Shell)：功能强大，提供高级自定义选项</li>
+        <li><strong>Fish</strong>：注重用户友好性和易用性</li>
+        <li><strong>Ksh</strong> (Korn Shell)：兼容性好，适用于脚本编程</li>
+      </ul>
+      
+      <p>在本文中，我们主要讨论Bash脚本编程，因为它是最广泛使用的Shell。</p>
+      
+      <h3>创建第一个Shell脚本</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+# 这是一个简单的Shell脚本示例
+echo "Hello, World!"
+echo "当前日期是: \$(date)"
+echo "当前用户: \$USER"
+echo "当前工作目录: \$PWD"</code></pre>
+      </div>
+      
+      <p>要执行Shell脚本，需要赋予其执行权限：</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">$ chmod +x script.sh
+$ ./script.sh</code></pre>
+      </div>
+      
+      <h2>变量与数据类型</h2>
+      
+      <h3>变量定义与使用</h3>
+      
+      <p>在Shell中定义变量不需要声明类型，赋值时不能有空格：</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 变量定义
+name="张三"
+age=30
+is_active=true
+
+# 变量使用
+echo "姓名: \$name"
+echo "年龄: \$age"
+echo "是否活跃: \$is_active"
+
+# 变量重新赋值
+name="李四"
+echo "新姓名: \$name"</code></pre>
+      </div>
+      
+      <h3>环境变量</h3>
+      
+      <p>环境变量是Shell中预定义的变量，影响Shell的行为和程序的运行环境：</p>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 显示常用环境变量
+echo "用户主目录: \$HOME"
+echo "当前Shell: \$SHELL"
+echo "系统路径: \$PATH"
+
+# 创建新的环境变量
+export MY_VAR="自定义环境变量"
+echo "\$MY_VAR"</code></pre>
+      </div>
+      
+      <h3>字符串操作</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+str="Hello, Shell编程"
+
+# 字符串长度
+echo "字符串长度: \${#str}"
+
+# 字符串截取
+echo "截取前5个字符: \${str:0:5}"
+
+# 字符串替换
+echo "替换Shell为Bash: \${str/Shell/Bash}"</code></pre>
+      </div>
+      
+      <h3>数组操作</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 定义数组
+fruits=("苹果" "香蕉" "橙子" "葡萄")
+
+# 访问数组元素
+echo "第一个水果: \${fruits[0]}"
+echo "所有水果: \${fruits[@]}"
+
+# 数组长度
+echo "水果数量: \${#fruits[@]}"
+
+# 添加元素
+fruits+=("西瓜")
+echo "添加后的数组: \${fruits[@]}"
+
+# 删除元素
+unset fruits[1]
+echo "删除后的数组: \${fruits[@]}"</code></pre>
+      </div>
+      
+      <h2>控制流结构</h2>
+      
+      <h3>条件语句</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# if-else语句
+age=25
+
+if [ \$age -lt 18 ]; then
+    echo "未成年"
+elif [ \$age -ge 18 ] && [ \$age -lt 60 ]; then
+    echo "成年人"
+else
+    echo "老年人"
+fi
+
+# 文件测试
+if [ -f "\$file" ]; then
+    echo "文件存在"
+else
+    echo "文件不存在"
+fi</code></pre>
+      </div>
+      
+      <p>常用条件测试：</p>
+      
+      <div className="table-container">
+        <table className="elegant-table">
+          <thead>
+            <tr>
+              <th>操作符</th>
+              <th>描述</th>
+              <th>示例</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>-eq</td>
+              <td>等于</td>
+              <td>[ \$a -eq \$b ]</td>
+            </tr>
+            <tr>
+              <td>-ne</td>
+              <td>不等于</td>
+              <td>[ \$a -ne \$b ]</td>
+            </tr>
+            <tr>
+              <td>-gt</td>
+              <td>大于</td>
+              <td>[ \$a -gt \$b ]</td>
+            </tr>
+            <tr>
+              <td>-lt</td>
+              <td>小于</td>
+              <td>[ \$a -lt \$b ]</td>
+            </tr>
+            <tr>
+              <td>-ge</td>
+              <td>大于等于</td>
+              <td>[ \$a -ge \$b ]</td>
+            </tr>
+            <tr>
+              <td>-le</td>
+              <td>小于等于</td>
+              <td>[ \$a -le \$b ]</td>
+            </tr>
+            <tr>
+              <td>-f</td>
+              <td>是普通文件</td>
+              <td>[ -f file ]</td>
+            </tr>
+            <tr>
+              <td>-d</td>
+              <td>是目录</td>
+              <td>[ -d dir ]</td>
+            </tr>
+            <tr>
+              <td>-r</td>
+              <td>可读</td>
+              <td>[ -r file ]</td>
+            </tr>
+            <tr>
+              <td>-w</td>
+              <td>可写</td>
+              <td>[ -w file ]</td>
+            </tr>
+            <tr>
+              <td>-x</td>
+              <td>可执行</td>
+              <td>[ -x file ]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <h3>循环结构</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# for循环
+echo "for循环示例:"
+for i in {1..5}; do
+    echo "数字: \$i"
+done
+
+# 遍历数组
+echo "遍历数组示例:"
+colors=("红" "绿" "蓝" "黄")
+for color in "\${colors[@]}"; do
+    echo "颜色: \$color"
+done
+
+# while循环
+echo "while循环示例:"
+count=1
+while [ \$count -le 5 ]; do
+    echo "计数: \$count"
+    count=\$((count+1))
+done
+
+# until循环
+echo "until循环示例:"
+num=5
+until [ \$num -le 0 ]; do
+    echo "倒计时: \$num"
+    num=\$((num-1))
+done</code></pre>
+      </div>
+      
+      <h4>while循环</h4>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 基本while循环
+count=1
+while [ \$count -le 5 ]; do
+    echo "循环次数: \$count"
+    ((count++))
+done
+
+# 读取文件内容
+while read line; do
+    echo "-> \$line"
+done < input.txt</code></pre>
+      </div>
+      
+      <h4>until循环</h4>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># until循环（条件为假时执行）
+counter=5
+until [ \$counter -lt 1 ]; do
+    echo "倒计时: \$counter"
+    ((counter--))
+done</code></pre>
+      </div>
+      
+      <h3>case语句</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+fruit="apple"
+
+case "\$fruit" in
+    "apple")
+        echo "这是苹果"
+        ;;
+    "banana"|"plantain")
+        echo "这是香蕉家族的水果"
+        ;;
+    "orange")
+        echo "这是橙子"
+        ;;
+    *)
+        echo "未知水果"
+        ;;
+esac</code></pre>
+      </div>
+      
+      <h2>函数</h2>
+      
+      <h3>函数定义与调用</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash"># 函数定义
+greeting() {
+    echo "Hello, \$1!"
+    echo "今天是 \$(date)"
+}
+
+# 函数调用
+greeting "张三"
+
+# 带返回值的函数
+calculate() {
+    local result=$((\$1 + \$2))
+    echo \$result
+}
+
+sum=\$(calculate 10 20)
+echo "计算结果: \$sum"</code></pre>
+      </div>
+      
+      <h3>函数参数</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+print_params() {
+    echo "函数名: \$0"
+    echo "第一个参数: \$1"
+    echo "第二个参数: \$2"
+    echo "参数个数: \$#"
+    echo "所有参数: \$@"
+}
+
+print_params "hello" "world"</code></pre>
+      </div>
+      
+      <h2>输入输出操作</h2>
+      
+      <h3>用户输入</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 读取用户输入
+echo "请输入您的姓名:"
+read name
+echo "您好, \$name!"
+
+# 带提示的读取
+read -p "请输入您的年龄: " age
+echo "您的年龄是: \$age"
+
+# 读取密码
+read -sp "请输入密码: " password
+echo -e "\n密码长度: \${#password}"</code></pre>
+      </div>
+      
+      <h3>文件读写</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 写入文件
+echo "这是第一行" > file.txt
+echo "这是第二行" >> file.txt
+
+# 逐行读取文件
+while IFS= read -r line; do
+    echo "读取的行: \$line"
+done < file.txt
+
+# 使用cat读取整个文件
+content=\$(cat file.txt)
+echo "文件内容: \$content"</code></pre>
+      </div>
+      
+      <h3>重定向</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 标准输出重定向
+echo "标准输出" > output.txt     # 覆盖
+echo "World" >> output.txt    # 追加
+
+# 标准错误重定向
+echo "标准错误" 2> error.txt
+
+# 同时重定向
+echo "所有输出" > all.txt 2>&1
+
+# 丢弃输出
+echo "丢弃的输出" > /dev/null</code></pre>
+      </div>
+      
+      <h2>Shell脚本调试</h2>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 启用调试模式
+set -x
+
+# 调试代码
+a=10
+b=20
+c=\$((a + b))
+echo "结果: \$c"
+
+# 关闭调试模式
+set +x
+
+# 检查命令返回值
+ls /nonexistent
+if [ \$? -ne 0 ]; then
+    echo "命令执行失败"
+fi</code></pre>
+      </div>
+      
+      <h2>正则表达式和文本处理</h2>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 使用grep搜索
+grep "pattern" file.txt
+
+# 使用sed替换
+echo "Hello World" | sed 's/World/Shell/'
+
+# 使用awk处理
+echo "张三 90 85 95" | awk '{print "姓名: " \$1, "平均分: " (\$2+\$3+\$4)/3}'
+
+# 字符串匹配
+text="这是一个示例文本"
+if [[ "\$text" =~ "示例" ]]; then
+    echo "匹配成功"
+fi</code></pre>
+      </div>
+      
+      <h2>进程管理</h2>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 后台运行进程
+sleep 100 &
+bg_pid=\$!
+echo "后台进程ID: \$bg_pid"
+
+# 检查进程状态
+ps -p \$bg_pid
+
+# 终止进程
+kill \$bg_pid
+
+# 等待进程完成
+wait \$bg_pid 2>/dev/null
+echo "进程已结束"</code></pre>
+      </div>
+      
+      <h2>错误处理</h2>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 设置出错即退出
+set -e
+
+# 捕获错误
+trap 'echo "脚本发生错误，行号: \$LINENO"' ERR
+
+# 自定义错误处理
+error_handler() {
+    echo "错误: \$1"
+    exit 1
+}
+
+# 使用自定义错误处理
+if [ ! -f "config.txt" ]; then
+    error_handler "配置文件不存在"
+fi
+
+# finally块模拟
+cleanup() {
+    echo "执行清理操作"
+}
+trap cleanup EXIT</code></pre>
+      </div>
+      
+      <h2>高级主题</h2>
+      
+      <h3>子Shell与命令替换</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 子Shell
+(
+    cd /tmp
+    echo "当前目录: \$PWD"
+)
+echo "主Shell目录: \$PWD"
+
+# 命令替换
+current_date=\$(date +"%Y-%m-%d")
+echo "今天是: \$current_date"
+
+# 进程替换
+diff <(ls /bin) <(ls /usr/bin) | head</code></pre>
+      </div>
+      
+      <h3>信号处理</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 捕获SIGINT信号（Ctrl+C）
+trap 'echo "捕获到Ctrl+C，但脚本继续运行"' SIGINT
+
+echo "脚本运行中，按Ctrl+C尝试中断..."
+sleep 10
+echo "脚本正常结束"</code></pre>
+      </div>
+      
+      <h2>实用Shell脚本示例</h2>
+      
+      <h3>系统监控脚本</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 系统监控脚本
+echo "=== 系统信息 ==="
+echo "主机名: \$(hostname)"
+echo "内核版本: \$(uname -r)"
+echo "运行时间: \$(uptime)"
+echo
+
+echo "=== CPU信息 ==="
+echo "CPU使用率: \$(top -bn1 | grep 'Cpu(s)' | awk '{print \$2 + \$4}')%"
+echo
+
+echo "=== 内存信息 ==="
+free -h | grep Mem
+echo
+
+echo "=== 磁盘使用 ==="
+df -h | grep '^/dev'</code></pre>
+      </div>
+      
+      <h3>批量文件处理脚本</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 批量重命名文件
+rename_files() {
+    local dir="\$1"
+    local prefix="\$2"
+    local count=1
+    
+    for file in "\$dir"/*; do
+        if [ -f "\$file" ]; then
+            extension=\${file##*.}
+            new_name="\$dir/\$prefix\$count.\$extension"
+            mv "\$file" "\$new_name"
+            echo "重命名: \$file -> \$new_name"
+            count=\$((count+1))
+        fi
+    done
+}
+
+# 调用函数
+rename_files "./images" "photo_"</code></pre>
+      </div>
+      
+      <h3>备份脚本</h3>
+      
+      <div className="code-container">
+        <pre><code className="language-bash">#!/bin/bash
+
+# 简单备份脚本
+backup_dir="/path/to/backup"
+source_dir="/path/to/source"
+date_str=\$(date +"%Y%m%d")
+backup_file="\$backup_dir/backup_\$date_str.tar.gz"
+
+# 创建备份目录
+mkdir -p "\$backup_dir"
+
+# 执行备份
+tar -czf "\$backup_file" "\$source_dir"
+
+# 检查备份结果
+if [ \$? -eq 0 ]; then
+    echo "备份成功: \$backup_file"
+    # 保留最近7天的备份
+    find "\$backup_dir" -name "backup_*.tar.gz" -mtime +7 -delete
+else
+    echo "备份失败"
+fi</code></pre>
+      </div>
+      
+      <h2>Shell脚本编程最佳实践</h2>
+      
+      <h3>代码风格</h3>
+      <ul>
+        <li>使用一致的缩进（通常是2或4个空格）</li>
+        <li>为变量和函数使用有意义的名称</li>
+        <li>使用注释说明代码功能</li>
+        <li>将相关代码分组为函数</li>
+      </ul>
+      
+      <h3>性能优化</h3>
+      <ul>
+        <li>减少外部命令调用</li>
+        <li>使用内置命令替代外部命令</li>
+        <li>对大文件处理时使用流处理而非一次性加载</li>
+        <li>考虑使用更快的工具（如awk替代多次sed）</li>
+      </ul>
+      
+      <h3>安全性考虑</h3>
+      <ul>
+        <li>始终引用变量，防止单词分割和路径名扩展问题</li>
+        <li>使用\`set -e\`确保脚本在错误时退出</li>
+        <li>验证所有用户输入</li>
+        <li>小心处理特殊字符</li>
+        <li>谨慎使用eval和其他可能引入安全风险的功能</li>
+      </ul>
+      
+      <h2>结论</h2>
+      
+      <p>Shell脚本是Linux系统中自动化任务的强大工具。通过掌握Shell脚本编程的基础知识和高级技巧，您可以大幅提高工作效率，简化系统管理任务，并实现复杂流程的自动化。无论是初学者还是有经验的Linux用户，持续学习和实践Shell脚本编程都将使您在Linux环境中更加得心应手。</p>
+      
+      <p>记住，编写好的Shell脚本不仅仅是让它能够工作，还要考虑可读性、可维护性和安全性。随着经验的积累，您将能够编写出更加高效、健壮的Shell脚本，成为真正的Shell编程专家。</p>
     `,
     style: 'style2'
   }

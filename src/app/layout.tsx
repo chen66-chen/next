@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   title: "小臣の | Web",
   description: "一个不同风格的网站,展示精美的技术网站",
   keywords: "Web,设计,wordpress,nextjs,设计系统,多风格",
+  metadataBase: new URL('https://your-domain.com'), // 替换为您的实际域名
 };
 
 export const viewport: Viewport = {

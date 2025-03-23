@@ -31,7 +31,7 @@ export const posts: Post[] = [
     description: "从零开始学习Linux的基础知识，包括常用命令、文件系统和基本操作。",
     date: "2025-03-18",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/2117173837/4046808622.webp",
+    coverImage: "/images/4.jpg",
     category: "Linux",
     tags: ["Linux", "入门", "命令行"]
   },
