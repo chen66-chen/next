@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 interface ClientOnlyProps {
   children: ReactNode;
@@ -8,18 +8,20 @@ interface ClientOnlyProps {
 }
 
 /**
- * 客户端专用包装器组件
- * 确保包裹的内容仅在客户端渲染时显示
- * 可用来包装那些使用浏览器API的组件
+ * 通用客户端包装器组件
+ * 用于确保组件只在客户端渲染，避免服务器端渲染错误
  */
-export default function ClientOnly({ children, fallback = null }: ClientOnlyProps) {
-  const [isClient, setIsClient] = useState(false);
+export default function ClientOnly({ 
+  children, 
+  fallback = null 
+}: ClientOnlyProps) {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
   }, []);
 
-  if (!isClient) {
+  if (!mounted) {
     return <>{fallback}</>;
   }
 

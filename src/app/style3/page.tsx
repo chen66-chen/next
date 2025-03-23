@@ -1,17 +1,22 @@
 "use client"
 
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Image from "next/image";
-import VulnerabilityDemo from "@/components/VulnerabilityDemo";
-import BiometricAuthDemo from "@/components/BiometricAuthDemo";
-import NetworkTopology from "@/components/NetworkTopology";
-import CTFChallenge from "@/components/CTFChallenge";
-import PentestTerminal from "@/components/PentestTerminal";
-import AISecurityAssistant from "@/components/AISecurityAssistant";
-import DigitalForensicsLab from "@/components/DigitalForensicsLab";
+import SafeVulnerabilityDemo from "@/components/SafeVulnerabilityDemo";
+import SafeBiometricAuthDemo from "@/components/SafeBiometricAuthDemo";
+import SafeNetworkTopology from "@/components/SafeNetworkTopology";
+import SafeCTFChallenge from "@/components/SafeCTFChallenge";
+import SafePentestTerminal from "@/components/SafePentestTerminal";
+import SafeAISecurityAssistant from "@/components/SafeAISecurityAssistant";
+import SafeDigitalForensicsLab from "@/components/SafeDigitalForensicsLab";
 import { useState, useEffect } from "react";
-import { ChevronRight, Shield, Code, Monitor, Eye, Cpu, Lock, User, Database, ArrowUp, Sun, Moon, Zap, Search, X, Menu, Filter } from "lucide-react";
+import { 
+  ChevronRight, Shield, Code, Monitor, Eye, Cpu, Lock, User, Database, ArrowUp, Sun, Moon, Zap, Search, X, Menu, Filter,
+  Bug, Wifi, Award, Terminal, Brain, FileDigit, ArrowRight, Circle
+} from "lucide-react";
+import ClientOnly from "@/components/ClientOnly";
 
 // 博客文章数据
 const blogPosts = [
@@ -121,6 +126,10 @@ export default function Style3Blog() {
   const [activeSection, setActiveSection] = useState('hero');
   // 添加工具提示状态
   const [toolTip, setToolTip] = useState({ show: false, text: '', x: 0, y: 0 });
+  // 添加搜索查询状态
+  const [searchQuery, setSearchQuery] = useState('');
+  // 添加加载状态
+  const [loading, setLoading] = useState(true);
   
   // 处理认证成功回调
   const handleAuthSuccess = () => {
@@ -132,65 +141,67 @@ export default function Style3Blog() {
     setIsClient(true);
   }, []);
   
-  // 监听滚动事件并更新活跃区域
-  useEffect(() => {
-    const handleScroll = () => {
+  // 使用ClientOnly包装window操作
+  const useWindowScrollEffect = () => {
+    useEffect(() => {
       if (typeof window === 'undefined') return;
       
-      const position = window.scrollY;
-      setScrollPosition(position);
-      
-      // 根据滚动位置显示/隐藏工具栏
-      if (position > 300 && !showFloatingTools) {
-        setShowFloatingTools(true);
-      } else if (position <= 300 && showFloatingTools) {
-        setShowFloatingTools(false);
-      }
-      
-      // 根据滚动位置判断当前活跃区域
-      const sections = [
-        { id: 'hero', position: 0 },
-        { id: 'tools', position: window.innerHeight * 0.9 },
-        { id: 'articles', position: document.body.scrollHeight - window.innerHeight * 1.5 }
-      ];
-      
-      for (let i = sections.length - 1; i >= 0; i--) {
-        if (position >= sections[i].position) {
-          setActiveSection(sections[i].id);
-          break;
+      const handleScroll = () => {
+        const position = window.scrollY;
+        setScrollPosition(position);
+        
+        // 根据滚动位置显示/隐藏工具栏
+        if (position > 300 && !showFloatingTools) {
+          setShowFloatingTools(true);
+        } else if (position <= 300 && showFloatingTools) {
+          setShowFloatingTools(false);
         }
-      }
-    };
-    
-    if (typeof window !== 'undefined') {
+        
+        // 根据滚动位置判断当前活跃区域
+        const sections = [
+          { id: 'hero', position: 0 },
+          { id: 'tools', position: window.innerHeight * 0.9 },
+          { id: 'articles', position: document.body.scrollHeight - window.innerHeight * 1.5 }
+        ];
+        
+        for (let i = sections.length - 1; i >= 0; i--) {
+          if (position >= sections[i].position) {
+            setActiveSection(sections[i].id);
+            break;
+          }
+        }
+      };
+      
       window.addEventListener('scroll', handleScroll);
       return () => {
         window.removeEventListener('scroll', handleScroll);
       };
-    }
-  }, [showFloatingTools]);
+    }, [showFloatingTools]);
+  };
   
-  // 使用useEffect阻止父级布局的Footer显示
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
-    // 找到并隐藏父级布局中的Footer
-    const footer = document.querySelector('footer');
-    if (footer) {
-      footer.style.display = 'none';
-    }
-    
-    // 组件卸载时恢复Footer
-    return () => {
+  // 使用ClientOnly包装DOM操作
+  const useHideFooterEffect = () => {
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
+      
+      // 找到并隐藏父级布局中的Footer
       const footer = document.querySelector('footer');
       if (footer) {
-        footer.style.display = 'block';
+        footer.style.display = 'none';
       }
-    };
-  }, []);
+      
+      // 组件卸载时恢复Footer
+      return () => {
+        const footer = document.querySelector('footer');
+        if (footer) {
+          footer.style.display = 'block';
+        }
+      };
+    }, []);
+  };
   
-  // 平滑滚动到特定区域
-  const scrollToSection = (sectionId: string) => {
+  // 平滑滚动到特定区域 - 客户端安全
+  const scrollToSectionSafe = (sectionId: string) => {
     if (typeof window === 'undefined') return;
     
     let scrollPosition = 0;
@@ -223,53 +234,65 @@ export default function Style3Blog() {
     }
   };
   
-  // 如果是服务器端渲染，返回一个简单的加载状态
-  if (!isClient) {
+  // 客户端浏览器加载状态
+  useEffect(() => {
+    // 在客户端执行时，设置loading为false
+    if (typeof window !== 'undefined') {
+      setLoading(false);
+    }
+  }, []);
+  
+  // 服务器端渲染时的加载状态
+  if (loading) {
     return (
-      <CustomLayout>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold mb-4">安全小窝</h1>
-            <p>加载中...</p>
-          </div>
-        </div>
-      </CustomLayout>
+      <div className="h-screen flex items-center justify-center">
+        <p className="text-xl text-gray-600">加载中...</p>
+      </div>
     );
   }
   
-  // 未认证时只显示生物识别登录界面
+  // 认证检查
   if (!isAuthenticated) {
     return (
-      <CustomLayout>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center">
-      {/* 半透明代码背景图案 */}
-      <div className="absolute inset-0 code-pattern opacity-20 z-0"></div>
-      
-          <div className="max-w-2xl w-full mx-auto px-4 relative z-10">
-            {/* 动态背景元素 */}
-            <div className="absolute top-[-50px] left-[-50px] w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-[-30px] right-[-20px] w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
-            
-            <div className="bg-black/20 backdrop-blur-xl p-10 rounded-2xl border border-gray-800/80 shadow-2xl animate-fade-in-up">
-              <h1 className="text-center text-4xl md:text-5xl font-bold mb-8 text-white">
-                <span className="text-blue-400 glow-text-blue">安全小窝</span> 登录
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center">
+        {/* 半透明代码背景图案 */}
+        <div className="absolute inset-0 code-pattern opacity-20 z-0"></div>
+        
+        <div className="max-w-2xl w-full mx-auto px-4 relative z-10">
+          {/* 动态背景元素 */}
+          <div className="absolute top-[-50px] left-[-50px] w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-[-30px] right-[-20px] w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
+          
+          <div className="bg-black/20 backdrop-blur-xl p-10 rounded-2xl border border-gray-800/80 shadow-2xl animate-fade-in-up">
+            <h1 className="text-center text-4xl md:text-5xl font-bold mb-8 text-white">
+              <span className="text-blue-400 glow-text-blue">安全小窝</span> 登录
             </h1>
-              <p className="text-center text-gray-300 mb-8">
-                需要进行生物识别验证才能访问 Chryssolion Chen 安全小窝
-              </p>
-              <div className="mb-4">
-                <BiometricAuthDemo onAuthSuccess={handleAuthSuccess} />
-              </div>
+            <p className="text-center text-gray-300 mb-8">
+              需要进行生物识别验证才能访问 Chryssolion Chen 安全小窝
+            </p>
+            <div className="mb-4">
+              <SafeBiometricAuthDemo onAuthSuccess={handleAuthSuccess} />
             </div>
           </div>
         </div>
-      </CustomLayout>
+      </div>
     );
+  }
+  
+  // 使用ClientOnly包装器激活客户端效果
+  const ClientSideEffects = () => {
+    useWindowScrollEffect();
+    useHideFooterEffect();
+    return null;
   }
   
   // 认证成功后展示页面内容
   return (
     <CustomLayout>
+      <ClientOnly>
+        <ClientSideEffects />
+      </ClientOnly>
+      
       <div className={`min-h-screen transition-colors duration-500 text-white overflow-hidden ${darkMode ? 'bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900' : 'bg-gradient-to-br from-slate-200 via-slate-300 to-slate-200 text-gray-800'}`}>
         {/* 半透明代码背景图案 */}
         <div className={`absolute inset-0 code-pattern z-0 ${darkMode ? 'opacity-20' : 'opacity-10'}`}></div>
@@ -280,49 +303,51 @@ export default function Style3Blog() {
         <div className="absolute bottom-[10%] left-[30%] w-[400px] h-[400px] bg-green-500/5 rounded-full blur-3xl"></div>
         
         {/* 浮动工具栏 */}
-        <div className={`fixed bottom-8 right-8 z-50 transition-all duration-500 ${showFloatingTools ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-          <div className="flex flex-col items-center gap-3">
-            {/* 主工具按钮 */}
-            <button 
-              className="w-12 h-12 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg shadow-blue-900/30 hover:bg-blue-500 transition-all border border-blue-400/30 backdrop-blur-md"
-              onClick={() => scrollToSection('hero')}
-              onMouseEnter={() => setToolTip({ show: true, text: '返回顶部', x: -70, y: 0 })}
-              onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
-            >
-              <ArrowUp className="w-5 h-5" />
-            </button>
-            
-            {/* 暗色/亮色模式切换 */}
-            <button 
-              className={`w-10 h-10 rounded-full ${darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-slate-100 text-blue-800'} flex items-center justify-center shadow-lg hover:scale-110 transition-all border border-gray-700/30 backdrop-blur-md`}
-              onClick={() => setDarkMode(!darkMode)}
-              onMouseEnter={() => setToolTip({ show: true, text: darkMode ? '切换亮色模式' : '切换暗色模式', x: -90, y: 0 })}
-              onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
-            >
-              {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-            </button>
-            
-            {/* 快速工具筛选 */}
-            <button 
-              className="w-10 h-10 rounded-full bg-purple-700/80 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all border border-purple-400/30 backdrop-blur-md"
-              onClick={() => setActiveToolCategory(activeToolCategory === 'all' ? 'defense' : 'all')}
-              onMouseEnter={() => setToolTip({ show: true, text: '工具筛选', x: -70, y: 0 })}
-              onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
-            >
-              <Filter className="w-4 h-4" />
-            </button>
-            
-            {/* 工具提示 */}
-            {toolTip.show && (
-              <div 
-                className="absolute right-12 bg-black/80 text-white text-xs py-1 px-2 rounded pointer-events-none backdrop-blur-md animate-fade-in whitespace-nowrap"
-                style={{ transform: `translate(${toolTip.x}px, ${toolTip.y}px)` }}
+        <ClientOnly>
+          <div className={`fixed bottom-8 right-8 z-50 transition-all duration-500 ${showFloatingTools ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+            <div className="flex flex-col items-center gap-3">
+              {/* 主工具按钮 */}
+              <button 
+                className="w-12 h-12 rounded-full bg-blue-600/90 text-white flex items-center justify-center shadow-lg shadow-blue-900/30 hover:bg-blue-500 transition-all border border-blue-400/30 backdrop-blur-md"
+                onClick={() => scrollToSectionSafe('hero')}
+                onMouseEnter={() => setToolTip({ show: true, text: '返回顶部', x: -70, y: 0 })}
+                onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
               >
-                {toolTip.text}
-              </div>
-            )}
+                <ArrowUp className="w-5 h-5" />
+              </button>
+              
+              {/* 暗色/亮色模式切换 */}
+              <button 
+                className={`w-10 h-10 rounded-full ${darkMode ? 'bg-gray-800 text-yellow-400' : 'bg-slate-100 text-blue-800'} flex items-center justify-center shadow-lg hover:scale-110 transition-all border border-gray-700/30 backdrop-blur-md`}
+                onClick={() => setDarkMode(!darkMode)}
+                onMouseEnter={() => setToolTip({ show: true, text: darkMode ? '切换亮色模式' : '切换暗色模式', x: -90, y: 0 })}
+                onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
+              >
+                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </button>
+              
+              {/* 快速工具筛选 */}
+              <button 
+                className="w-10 h-10 rounded-full bg-purple-700/80 text-white flex items-center justify-center shadow-lg hover:scale-110 transition-all border border-purple-400/30 backdrop-blur-md"
+                onClick={() => setActiveToolCategory(activeToolCategory === 'all' ? 'defense' : 'all')}
+                onMouseEnter={() => setToolTip({ show: true, text: '工具筛选', x: -70, y: 0 })}
+                onMouseLeave={() => setToolTip({ show: false, text: '', x: 0, y: 0 })}
+              >
+                <Filter className="w-4 h-4" />
+              </button>
+              
+              {/* 工具提示 */}
+              {toolTip.show && (
+                <div 
+                  className="absolute right-12 bg-black/80 text-white text-xs py-1 px-2 rounded pointer-events-none backdrop-blur-md animate-fade-in whitespace-nowrap"
+                  style={{ transform: `translate(${toolTip.x}px, ${toolTip.y}px)` }}
+                >
+                  {toolTip.text}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        </ClientOnly>
         
         <div className="relative z-10">
           {/* 英雄区 - 页面头部展示区域 */}
@@ -364,7 +389,7 @@ export default function Style3Blog() {
                     className={`px-8 py-6 ${darkMode 
                       ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border border-blue-400/20' 
                       : 'bg-gradient-to-r from-blue-700 to-blue-600 hover:from-blue-600 hover:to-blue-500 border border-blue-500/20'} shadow-lg shadow-blue-900/20 animate-float-delay-1`}
-                    onClick={() => scrollToSection('tools')}
+                    onClick={() => scrollToSectionSafe('tools')}
                   >
                     <Shield className="mr-2 h-5 w-5" /> 安全工具
                   </Button>
@@ -385,16 +410,16 @@ export default function Style3Blog() {
                   >
                     <Lock className="mr-2 h-5 w-5" /> 登出
                   </Button>
-        </div>
+                </div>
 
                 <div className="relative mt-8">
                   <div className="absolute left-1/2 transform -translate-x-1/2 h-16 w-px bg-gradient-to-b from-transparent via-blue-400 to-transparent opacity-60"></div>
-        </div>
+                </div>
 
                 <div className="mt-4 animate-bounce">
                   <button 
                     className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
-                    onClick={() => scrollToSection('tools')}
+                    onClick={() => scrollToSectionSafe('tools')}
                   >
                     <ChevronRight className="w-10 h-10 transform rotate-90" />
                   </button>
@@ -403,124 +428,72 @@ export default function Style3Blog() {
             </div>
           </div>
 
-          {/* 固定导航栏 - 在滚动时显示 */}
-          <div className={`fixed top-0 left-0 right-0 ${darkMode ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-lg z-50 transition-all duration-500 ${scrollPosition > 100 ? 'translate-y-0 opacity-100' : 'translate-y-[-100%] opacity-0'}`}>
-            <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-              <div className="flex items-center">
-                <span className={`text-xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'} mr-4`}>安全小窝</span>
-                <div className="hidden md:flex space-x-4">
-                  <button 
-                    className={`px-3 py-1 rounded-full ${activeToolCategory === 'all' 
-                      ? darkMode ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-500/30 text-blue-700' 
-                      : darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`} 
-                    onClick={() => setActiveToolCategory('all')}
-                  >
-                    所有工具
-                  </button>
-                  {securityTools.map(category => (
+          <ClientOnly>
+            {/* 固定导航栏 - 在滚动时显示 */}
+            <div className={`fixed top-0 left-0 right-0 ${darkMode ? 'bg-black/80' : 'bg-white/80'} backdrop-blur-lg z-50 transition-all duration-500 ${scrollPosition > 100 ? 'translate-y-0 opacity-100' : 'translate-y-[-100%] opacity-0'}`}>
+              <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div className="flex items-center">
+                  <span className={`text-xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'} mr-4`}>安全小窝</span>
+                  <div className="hidden md:flex space-x-4">
                     <button 
-                      key={category.id}
-                      className={`px-3 py-1 rounded-full ${activeToolCategory === category.id 
-                        ? darkMode ? `bg-${category.color}-500/20 text-${category.color}-400` : `bg-${category.color}-500/30 text-${category.color}-700`
-                        : darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
-                      onClick={() => setActiveToolCategory(category.id)}
+                      className={`px-3 py-1 rounded-full ${activeToolCategory === 'all' 
+                        ? darkMode ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-500/30 text-blue-700' 
+                        : darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`} 
+                      onClick={() => setActiveToolCategory('all')}
                     >
-                      {category.title}
+                      所有工具
                     </button>
-                  ))}
+                    {securityTools.map(category => (
+                      <button 
+                        key={category.id}
+                        className={`px-3 py-1 rounded-full ${activeToolCategory === category.id 
+                          ? darkMode ? `bg-${category.color}-500/20 text-${category.color}-400` : `bg-${category.color}-500/30 text-${category.color}-700`
+                          : darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}
+                        onClick={() => setActiveToolCategory(category.id)}
+                      >
+                        {category.title}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                {/* 搜索按钮 */}
-                <button
-                  className={`p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
-                  onClick={() => setSearchOpen(!searchOpen)}
-                >
-                  {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
-                </button>
                 
-                {/* 暗色模式切换 */}
-                <button 
-                  className={`p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
-                  onClick={() => setDarkMode(!darkMode)}
-                >
-                  {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-800" />}
-                </button>
-                
-                {/* 移动端菜单按钮 */}
-                <button 
-                  className={`md:hidden p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                >
-                  {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                </button>
-                
-                <Button 
-                  variant={darkMode ? "destructive" : "secondary"} 
-                  size="sm"
-                  onClick={() => setIsAuthenticated(false)}
-                  className="px-4 hidden md:flex"
-                >
-                  <Lock className="mr-2 h-4 w-4" /> 登出
-                </Button>
-              </div>
-            </div>
-            
-            {/* 搜索框 */}
-            <div className={`overflow-hidden transition-all duration-300 ${searchOpen ? 'max-h-20 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="container mx-auto px-4 py-3">
-                <div className={`flex items-center ${darkMode ? 'bg-gray-900' : 'bg-white'} rounded-lg p-2 border ${darkMode ? 'border-gray-700' : 'border-gray-300'}`}>
-                  <Search className={`w-5 h-5 ${darkMode ? 'text-gray-400' : 'text-gray-500'} mr-2`} />
-                  <input 
-                    type="text" 
-                    placeholder="搜索安全工具、文章或资源..." 
-                    className={`flex-1 outline-none ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-800'}`} 
-                    autoFocus
-                  />
-                </div>
-              </div>
-            </div>
-            
-            {/* 移动端菜单 */}
-            <div className={`md:hidden overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-[300px] opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className={`container mx-auto px-4 py-3 flex flex-col space-y-3 ${darkMode ? 'bg-gray-900/80' : 'bg-white/80'} backdrop-blur-lg`}>
-                <button 
-                  className={`px-3 py-2 rounded-md ${activeToolCategory === 'all' 
-                    ? darkMode ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-500/30 text-blue-700' 
-                    : ''} flex items-center`} 
-                  onClick={() => setActiveToolCategory('all')}
-                >
-                  <Zap className="w-4 h-4 mr-2" /> 所有工具
-                </button>
-                {securityTools.map(category => (
-                  <button 
-                    key={category.id}
-                    className={`px-3 py-2 rounded-md ${activeToolCategory === category.id 
-                      ? darkMode ? `bg-${category.color}-500/20 text-${category.color}-400` : `bg-${category.color}-500/30 text-${category.color}-700`
-                      : ''} flex items-center`}
-                    onClick={() => {
-                      setActiveToolCategory(category.id);
-                      setMobileMenuOpen(false);
-                    }}
+                <div className="flex items-center gap-3">
+                  {/* 搜索按钮 */}
+                  <button
+                    className={`p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
+                    onClick={() => setSearchOpen(!searchOpen)}
                   >
-                    {category.icon}
-                    <span className="ml-2">{category.title}</span>
+                    {searchOpen ? <X className="w-5 h-5" /> : <Search className="w-5 h-5" />}
                   </button>
-                ))}
-                <div className="pt-2 border-t border-gray-700/30">
+                  
+                  {/* 暗色模式切换 */}
+                  <button 
+                    className={`p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
+                    onClick={() => setDarkMode(!darkMode)}
+                  >
+                    {darkMode ? <Sun className="w-5 h-5 text-yellow-400" /> : <Moon className="w-5 h-5 text-blue-800" />}
+                  </button>
+                  
+                  {/* 移动端菜单按钮 */}
+                  <button 
+                    className={`md:hidden p-2 rounded-full ${darkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-200'} transition-colors`}
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  >
+                    {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                  </button>
+                  
                   <Button 
-                    variant={darkMode ? "destructive" : "secondary"}
+                    variant={darkMode ? "destructive" : "secondary"} 
                     size="sm"
                     onClick={() => setIsAuthenticated(false)}
-                    className="w-full"
+                    className="px-4 hidden md:flex"
                   >
                     <Lock className="mr-2 h-4 w-4" /> 登出
                   </Button>
                 </div>
               </div>
             </div>
-          </div>
+          </ClientOnly>
           
           <div id="tools-section" className="max-w-7xl mx-auto px-4 pt-20 pb-20">
             {/* 安全工具导航和分类 */}
@@ -561,7 +534,7 @@ export default function Style3Blog() {
                     <span className="ml-2">{category.title}</span>
                   </button>
                 ))}
-        </div>
+              </div>
             </div>
           
             {/* 安全工具展示区 - 使用网格布局 */}
@@ -583,7 +556,7 @@ export default function Style3Blog() {
                         通过交互式网络拓扑分析工具，可视化网络架构和潜在的攻击路径。此工具帮助安全分析师识别网络中的关键节点和可能的漏洞点。
                       </p>
                       <div className="h-[350px] bg-black/30 rounded-lg mb-4 overflow-hidden border border-blue-700/20">
-                        <NetworkTopology />
+                        <SafeNetworkTopology />
                       </div>
                     </div>
                   </div>
@@ -604,12 +577,12 @@ export default function Style3Blog() {
                         交互式漏洞演示环境，展示并讲解常见Web安全漏洞的攻击原理与防御方法。帮助开发者理解如何构建更安全的应用。
                       </p>
                       <div className="bg-black/30 rounded-lg overflow-hidden border border-red-700/20">
-                        <VulnerabilityDemo />
-              </div>
-            </div>
-          </div>
-        </div>
-
+                        <SafeVulnerabilityDemo />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
                 {/* 数字取证实验室 - 交互式数字取证模拟环境 */}
                 <div className={`transform transition-all duration-500 ${activeToolCategory !== 'all' && activeToolCategory !== 'analysis' ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
                   <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-900/30 to-blue-800/10 border border-blue-700/30 shadow-lg backdrop-blur-sm group hover:shadow-blue-900/20">
@@ -625,7 +598,7 @@ export default function Style3Blog() {
                         探索数字取证的奥秘，发现被隐藏的证据。通过分析数字媒体、恢复删除的文件、查看元数据和解密隐写内容，提升您的取证技能。实验室提供不同难度的挑战，帮助您掌握专业的数字取证技术。
                       </p>
                       <div className="bg-black/30 rounded-lg overflow-hidden border border-blue-700/20">
-                        <DigitalForensicsLab />
+                        <SafeDigitalForensicsLab />
                       </div>
                     </div>
                   </div>
@@ -649,11 +622,11 @@ export default function Style3Blog() {
                         体验现代生物识别技术在安全验证中的应用。通过指纹和面部识别等多种生物特征，实现更安全的身份验证方式。
                       </p>
                       <div className="bg-black/30 rounded-lg overflow-hidden border border-purple-700/20">
-                        <BiometricAuthDemo />
+                        <SafeBiometricAuthDemo onAuthSuccess={handleAuthSuccess} />
                       </div>
                     </div>
-              </div>
-            </div>
+                  </div>
+                </div>
                 
                 {/* CTF挑战区 - 安全技能挑战与练习 */}
                 <div className={`transform transition-all duration-500 ${activeToolCategory !== 'all' && activeToolCategory !== 'training' ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
@@ -670,11 +643,11 @@ export default function Style3Blog() {
                         挑战自我，提升安全技能。在这里，您可以尝试解决各种网络安全挑战，包括密码破解、隐写术、Web漏洞利用等。每个挑战都模拟了真实世界中的安全场景。
                       </p>
                       <div className="bg-black/30 rounded-lg overflow-hidden border border-purple-700/20">
-                        <CTFChallenge />
+                        <SafeCTFChallenge />
                       </div>
                     </div>
-          </div>
-        </div>
+                  </div>
+                </div>
 
                 {/* AI安全助手 - 智能安全咨询与学习 */}
                 <div className={`transform transition-all duration-500 ${activeToolCategory !== 'all' && activeToolCategory !== 'defense' ? 'opacity-50 scale-95' : 'opacity-100 scale-100'}`}>
@@ -691,7 +664,7 @@ export default function Style3Blog() {
                         您的专属网络安全智能顾问。无论您有什么安全问题，从基础概念到高级防御策略，AI助手都能提供专业解答，帮助您更好地理解网络安全知识，提高安全意识。
                       </p>
                       <div className="h-[350px] bg-black/30 rounded-lg overflow-hidden border border-cyan-700/20">
-                        <AISecurityAssistant />
+                        <SafeAISecurityAssistant />
                       </div>
                     </div>
                   </div>
@@ -718,7 +691,7 @@ export default function Style3Blog() {
                     提示：点击终端区域激活，可尝试命令：<code className="bg-black/60 px-2 py-0.5 rounded text-green-400">tools</code>、<code className="bg-black/60 px-2 py-0.5 rounded text-green-400">nmap 192.168.1.100</code>、<code className="bg-black/60 px-2 py-0.5 rounded text-green-400">msfconsole</code> 等
                   </p>
                   <div className="bg-black/30 rounded-lg overflow-hidden border border-green-700/20">
-                    <PentestTerminal />
+                    <SafePentestTerminal />
                   </div>
                 </div>
               </div>
@@ -801,7 +774,7 @@ export default function Style3Blog() {
                         <span className="text-green-400 group-hover:translate-x-1 transition-transform duration-300">阅读全文 →</span>
                       </div>
                     </div>
-                </div>
+                  </div>
                 </Link>
               </div>
             </section>
