@@ -1,7 +1,8 @@
 import { ImageResponse } from 'next/og'
 
 export const runtime = 'edge'
-export const dynamic = 'force-static'
+// 移除 force-static 配置，与 edge runtime 不兼容
+// export const dynamic = 'force-static'
 
 export const alt = '小臣 (Blog)'
 export const size = {

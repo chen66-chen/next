@@ -100,6 +100,9 @@ const CustomLayout = ({ children }: { children: React.ReactNode }) => {
  * 提供生物识别登录和安全工具展示功能
  */
 export default function Style3Blog() {
+  // 添加客户端渲染检查
+  const [isClient, setIsClient] = useState(false);
+  
   // 添加认证状态管理
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   // 添加活跃工具类别状态
@@ -124,9 +127,16 @@ export default function Style3Blog() {
     setIsAuthenticated(true);
   };
   
+  // 设置客户端渲染标志
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+  
   // 监听滚动事件并更新活跃区域
   useEffect(() => {
     const handleScroll = () => {
+      if (typeof window === 'undefined') return;
+      
       const position = window.scrollY;
       setScrollPosition(position);
       
@@ -152,14 +162,18 @@ export default function Style3Blog() {
       }
     };
     
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll);
+      return () => {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
   }, [showFloatingTools]);
   
   // 使用useEffect阻止父级布局的Footer显示
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     // 找到并隐藏父级布局中的Footer
     const footer = document.querySelector('footer');
     if (footer) {
@@ -177,6 +191,8 @@ export default function Style3Blog() {
   
   // 平滑滚动到特定区域
   const scrollToSection = (sectionId: string) => {
+    if (typeof window === 'undefined') return;
+    
     let scrollPosition = 0;
     
     switch (sectionId) {
@@ -207,14 +223,28 @@ export default function Style3Blog() {
     }
   };
   
+  // 如果是服务器端渲染，返回一个简单的加载状态
+  if (!isClient) {
+    return (
+      <CustomLayout>
+        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-4">安全小窝</h1>
+            <p>加载中...</p>
+          </div>
+        </div>
+      </CustomLayout>
+    );
+  }
+  
   // 未认证时只显示生物识别登录界面
   if (!isAuthenticated) {
     return (
       <CustomLayout>
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white flex items-center justify-center">
-          {/* 半透明代码背景图案 */}
-          <div className="absolute inset-0 code-pattern opacity-20 z-0"></div>
-          
+      {/* 半透明代码背景图案 */}
+      <div className="absolute inset-0 code-pattern opacity-20 z-0"></div>
+      
           <div className="max-w-2xl w-full mx-auto px-4 relative z-10">
             {/* 动态背景元素 */}
             <div className="absolute top-[-50px] left-[-50px] w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -223,7 +253,7 @@ export default function Style3Blog() {
             <div className="bg-black/20 backdrop-blur-xl p-10 rounded-2xl border border-gray-800/80 shadow-2xl animate-fade-in-up">
               <h1 className="text-center text-4xl md:text-5xl font-bold mb-8 text-white">
                 <span className="text-blue-400 glow-text-blue">安全小窝</span> 登录
-              </h1>
+            </h1>
               <p className="text-center text-gray-300 mb-8">
                 需要进行生物识别验证才能访问 Chryssolion Chen 安全小窝
               </p>
@@ -355,12 +385,12 @@ export default function Style3Blog() {
                   >
                     <Lock className="mr-2 h-5 w-5" /> 登出
                   </Button>
-                </div>
-                
+        </div>
+
                 <div className="relative mt-8">
                   <div className="absolute left-1/2 transform -translate-x-1/2 h-16 w-px bg-gradient-to-b from-transparent via-blue-400 to-transparent opacity-60"></div>
-                </div>
-                
+        </div>
+
                 <div className="mt-4 animate-bounce">
                   <button 
                     className={`${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
@@ -531,7 +561,7 @@ export default function Style3Blog() {
                     <span className="ml-2">{category.title}</span>
                   </button>
                 ))}
-              </div>
+        </div>
             </div>
           
             {/* 安全工具展示区 - 使用网格布局 */}
@@ -771,7 +801,7 @@ export default function Style3Blog() {
                         <span className="text-green-400 group-hover:translate-x-1 transition-transform duration-300">阅读全文 →</span>
                       </div>
                     </div>
-                  </div>
+                </div>
                 </Link>
               </div>
             </section>
