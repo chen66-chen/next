@@ -81,37 +81,37 @@ const InteractiveExplainer: React.FC<InteractiveExplainerProps> = ({
 
   // 计算提示框位置
   useEffect(() => {
-    if (isOpen && termRef.current && tooltipRef.current) {
-      const termRect = termRef.current.getBoundingClientRect();
-      const tooltipRect = tooltipRef.current.getBoundingClientRect();
-      
-      // 计算窗口边界
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-      
-      // 默认显示方向和位置
-      let direction = 'bottom';
-      let top = termRect.bottom + window.scrollY;
-      let left = termRect.left + window.scrollX + (termRect.width / 2) - (tooltipRect.width / 2);
-      
-      // 检查是否超出右边界
-      if (left + tooltipRect.width > viewportWidth) {
-        left = viewportWidth - tooltipRect.width - 10;
-      }
-      
-      // 检查是否超出左边界
-      if (left < 10) {
-        left = 10;
-      }
-      
-      // 检查底部是否有足够空间
-      if (termRect.bottom + tooltipRect.height > viewportHeight && termRect.top > tooltipRect.height) {
-        direction = 'top';
-        top = termRect.top + window.scrollY - tooltipRect.height;
-      }
-      
-      setPosition({ top, left, direction });
+    if (!isOpen || !termRef.current || !tooltipRef.current || typeof window === 'undefined') return;
+    
+    const termRect = termRef.current.getBoundingClientRect();
+    const tooltipRect = tooltipRef.current.getBoundingClientRect();
+    
+    // 计算窗口边界
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    
+    // 默认显示方向和位置
+    let direction = 'bottom';
+    let top = termRect.bottom + window.scrollY;
+    let left = termRect.left + window.scrollX + (termRect.width / 2) - (tooltipRect.width / 2);
+    
+    // 检查是否超出右边界
+    if (left + tooltipRect.width > viewportWidth) {
+      left = viewportWidth - tooltipRect.width - 10;
     }
+    
+    // 检查是否超出左边界
+    if (left < 10) {
+      left = 10;
+    }
+    
+    // 检查底部是否有足够空间
+    if (termRect.bottom + tooltipRect.height > viewportHeight && termRect.top > tooltipRect.height) {
+      direction = 'top';
+      top = termRect.top + window.scrollY - tooltipRect.height;
+    }
+    
+    setPosition({ top, left, direction });
   }, [isOpen]);
 
   // 渲染解释内容

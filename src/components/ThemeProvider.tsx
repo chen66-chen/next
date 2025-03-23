@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
+import ClientWindowWrapper from "./ClientWindowWrapper"
 
 type Theme = "dark" | "light" | "system"
 
@@ -33,33 +34,51 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [mounted, setMounted] = useState(false)
+
+  // 确保只在客户端执行
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Initialize theme from localStorage (client-side only)
   useEffect(() => {
+    if (!mounted) return
+
     const storedTheme = getStoredTheme()
     if (storedTheme) {
       setTheme(storedTheme)
     }
-  }, [])
+  }, [mounted])
 
   // Update the class on the html element
   useEffect(() => {
-    const root = window.document.documentElement
+    if (!mounted) return
+    
+    const applyTheme = () => {
+      if (typeof window === 'undefined') return
+      
+      const root = window.document.documentElement
 
-    root.classList.remove("light", "dark")
+      root.classList.remove("light", "dark")
 
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-      root.classList.add(systemTheme)
-    } else {
-      root.classList.add(theme)
+      if (theme === "system") {
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        root.classList.add(systemTheme)
+      } else {
+        root.classList.add(theme)
+      }
     }
-  }, [theme])
+    
+    applyTheme()
+  }, [theme, mounted])
 
   // Helper function to safely access localStorage
   const getStoredTheme = (): Theme | undefined => {
+    if (typeof window === 'undefined') return undefined
+    
     try {
       return localStorage.getItem(storageKey) as Theme || undefined
     } catch (error) {
@@ -70,6 +89,8 @@ export function ThemeProvider({
 
   // Helper function to safely set localStorage
   const storeTheme = (theme: Theme): void => {
+    if (typeof window === 'undefined') return
+    
     try {
       localStorage.setItem(storageKey, theme)
     } catch (error) {
@@ -83,6 +104,15 @@ export function ThemeProvider({
       setTheme(newTheme)
       storeTheme(newTheme)
     },
+  }
+
+  // 避免服务端渲染闪烁
+  if (!mounted) {
+    return (
+      <ThemeProviderContext.Provider value={initialState}>
+        {children}
+      </ThemeProviderContext.Provider>
+    )
   }
 
   return (

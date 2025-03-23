@@ -30,6 +30,15 @@ const nextConfig = {
       },
     ],
     unoptimized: true,
+  },
+  // 添加运行时配置，确保服务端渲染和客户端渲染正常工作
+  experimental: {
+    // React 严格模式
+    reactStrictMode: true,
+    // 启用服务端组件
+    serverComponents: true,
+    // 配置App Router
+    appDir: true,
   }
 }
 
