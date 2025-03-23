@@ -44,7 +44,7 @@ const posts = [
     description: "如何根据个人喜好定制你的Halo博客主题，包括颜色、字体、布局等方面的调整。",
     date: "2025-02-20",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/215159204/3145156357.webp",
+    coverImage: "/images/12.jpg",
     category: "Theme",
     tags: ["Halo", "定制", "教程"]
   },

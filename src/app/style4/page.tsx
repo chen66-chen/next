@@ -261,7 +261,7 @@ function hello() {
       <header className="site4-header">
         <div className="site4-header-overlay"></div>
         <div className="site4-header-content">
-          <h1 className="font-kuaikan text-4xl mb-4">2023年的点滴记录</h1>
+          <h1 className="font-kuaikan text-4xl mb-4">2025年的点滴记录</h1>
           <p className="font-misans text-lg max-w-2xl mx-auto">
             记录美好的瞬间，分享生活的感动，学习的心得与技术的成长
           </p>
@@ -366,7 +366,7 @@ function hello() {
             <div className="bg-white rounded-lg overflow-hidden shadow-sm p-6 text-center">
               <div className="relative h-24 w-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-site4-accent/30">
                 <Image
-                  src="https://ext.same-assets.com/1869367520/3221986511.png"
+                  src="/images/2774141023.jpeg"
                   alt="Chryssolion Chen"
                   fill
                   className="object-cover"
@@ -374,7 +374,7 @@ function hello() {
               </div>
               <h3 className="font-kuaikan text-site4-primary text-xl mb-2">Chryssolion Chen</h3>
               <p className="text-site4-text text-sm mb-4">
-                希望我的文章能给您带来思考，如果能在您的生活中体现些许色彩那就更好了。
+                一个热爱生活，热爱技术的年轻人。
               </p>
               <div className="flex justify-center gap-4">
                 <button className="p-2 rounded-full bg-site4-accent/20 text-site4-primary hover:bg-site4-accent/40 transition-colors">

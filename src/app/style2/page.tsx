@@ -7,11 +7,11 @@ import { formatDate } from "@/lib/utils"
 const posts = [
   {
     id: "post2",
-    title: "LS-NET-009-如何配置基于手动匹配的ACL",
-    description: "网络工程师必须掌握的基础知识，本文详细介绍ACL配置方法及应用场景。",
+    title: "局域网",
+    description: "局域网（LAN）拓扑与网络基础概念总结",
     date: "2025-03-19",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/851502839/2441392336.png",
+    coverImage: "/images/6.png",
     category: "网工笔记",
     tags: ["ACL", "网络配置"]
   },

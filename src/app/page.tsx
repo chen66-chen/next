@@ -41,7 +41,7 @@ export const posts: Post[] = [
     description: "深入理解Linux文件系统的结构、类型和管理方法，掌握文件操作的核心概念。",
     date: "2025-03-20",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/1824305649/3628065475.webp",
+    coverImage: "/images/7.jpg",
     category: "Linux",
     tags: ["Linux", "文件系统", "存储"]
   },
@@ -51,7 +51,7 @@ export const posts: Post[] = [
     description: "学习Shell脚本编程的核心概念和技巧，提高自动化能力和工作效率。",
     date: "2025-03-22",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/2570740104/2633335979.webp",
+    coverImage: "/images/9.jpg",
     category: "Linux",
     tags: ["Linux", "Shell", "Bash", "脚本编程"]
   },
@@ -77,11 +77,11 @@ export const posts: Post[] = [
   },
   {
     id: "post2",
-    title: "LS-NET-009-如何配置基于手动匹配的ACL",
-    description: "网络工程师必须掌握的基础知识",
+    title: "局域网",
+    description: "局域网（LAN）拓扑与网络基础概念总结",
     date: "2025-03-19",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/851502839/2441392336.png",
+    coverImage: "/images/6.png",
     category: "网工笔记",
     tags: ["ACL", "网络配置"]
   },
@@ -626,7 +626,7 @@ export default function Home() {
                 </div>
                 <div>
                   <p className="font-bold text-gray-900 dark:text-white">Chryssolion Chen</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">网络工程师 / 写作爱好者</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">网络安全 / 写作爱好者</p>
                 </div>
               </div>
               <p className="text-sm text-gray-700 dark:text-gray-300">

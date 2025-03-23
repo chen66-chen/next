@@ -669,7 +669,7 @@ const postsDatabase: Record<string, Post> = {
     description: "如何根据个人喜好定制你的Halo博客主题，包括颜色、字体、布局等方面的调整。",
     date: "2025-02-20",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/215159204/3145156357.webp",
+    coverImage: "/images/12.jpg",
     category: "Theme",
     tags: ["Halo", "定制", "教程"],
     content: `
@@ -803,7 +803,7 @@ h1, h2, h3 {
     description: "详细对比两种常用路由协议的优缺点，帮助网络工程师选择合适的协议。",
     date: "2025-03-15",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/400199818/1223356591.webp",
+    coverImage: "/images/11.jpg",
     category: "网工笔记",
     tags: ["OSPF", "RIP", "路由协议"],
     content: `
@@ -1917,7 +1917,7 @@ Shell脚本是Linux系统管理和自动化的强大工具。通过本文介绍�
     description: "深入理解Linux文件系统的结构、类型和管理方法，掌握文件操作的核心概念。",
     date: "2025-03-20",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/1824305649/3628065475.webp",
+    coverImage: "/images/8.jpg",
     category: "Linux",
     tags: ["Linux", "文件系统", "存储"],
     content: `
@@ -2273,7 +2273,7 @@ $ sudo ddrescue -d -r3 /dev/sda /path/to/image /path/to/logfile</code></pre>
     description: "全面掌握Shell脚本编程技术，从基础语法到高级应用，提升Linux系统管理与自动化能力。",
     date: "2023-04-15",
     author: "Chryssolion Chen",
-    coverImage: "https://ext.same-assets.com/1824305649/3628065476.webp",
+    coverImage: "/images/10.jpg",
     category: "Linux",
     tags: ["Linux", "Shell", "脚本编程", "自动化"],
     content: `
