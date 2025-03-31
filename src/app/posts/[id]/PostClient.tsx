@@ -4,8 +4,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft } from 'lucide-react';
-import CommentList from '@/components/CommentList';
-import CommentForm from '@/components/CommentForm';
 import { Suspense } from 'react';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -13,6 +11,8 @@ import AIAssistant from '@/components/AIAssistant';
 import dynamic from 'next/dynamic';
 import { CalligraphyTitle, MixedTextRenderer, HtmlContentProcessor } from '@/components/Typography';
 import FeedbackProcessor from '@/components/Feedback/FeedbackProcessor';
+// 导入评论组件
+import { Comments } from '@/components/blog';
 
 // 动态导入3D背景组件
 const DynamicBackgroundWrapper = dynamic(
@@ -306,16 +306,8 @@ export function PostClient({ post }: PostClientProps) {
               />
             </div>
             
-            {/* 评论区 */}
-            <div className="mt-12 border-t pt-8">
-              <h3 className="text-xl font-bold mb-6">评论</h3>
-              <Suspense fallback={<div>加载评论中...</div>}>
-                <CommentList postId={post.id} postSlug={post.id} />
-              </Suspense>
-              <div className="mt-8">
-                <CommentForm postId={post.id} postSlug={post.id} onCommentAdded="refresh" />
-              </div>
-            </div>
+            {/* 使用新的Comments组件 */}
+            <Comments postId={post.id} postSlug={post.id} />
           </div>
         </div>
         

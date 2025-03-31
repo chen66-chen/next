@@ -387,17 +387,17 @@ export default function HFishHoneypotPlatform() {
 
   return (
     <>
-      <div className="min-h-screen bg-hfish-dark text-blue-100 flex flex-col">
+      <div className="min-h-screen bg-[#000C18] text-blue-100 flex flex-col">
         {/* 顶部导航 */}
-        <header className="bg-gradient-to-r from-blue-950 to-blue-900 px-4 py-2 border-b border-blue-800 flex justify-between items-center sticky top-0 z-10">
+        <header className="bg-gradient-to-r from-[#001529] to-[#00254D] px-4 py-2 border-b border-[#003366] flex justify-between items-center sticky top-0 z-10">
           <div className="flex items-center space-x-4">
-            <div className="text-xl font-bold text-blue-300 flex items-center">
-              <Globe className="h-5 w-5 mr-2 text-blue-400" />
-              <span>HFish Global Situation Awareness</span>
+            <div className="text-xl font-bold text-[#38BBFF] flex items-center">
+              <Globe className="h-5 w-5 mr-2 text-[#38BBFF]" />
+              <span>蜜罐攻击态势</span>
             </div>
           </div>
           <div className="flex items-center space-x-4">
-            <div className="text-sm text-blue-400">
+            <div className="text-sm text-[#38BBFF]">
               Current time: {currentTime}
             </div>
             {apiError && (
@@ -409,7 +409,7 @@ export default function HFishHoneypotPlatform() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-xs h-7 bg-blue-900/30 hover:bg-blue-800/40 border-blue-700/50 text-blue-300"
+              className="text-xs h-7 bg-blue-900/30 hover:bg-blue-800/40 border-[#003366] text-[#38BBFF]"
               onClick={fetchHFishData}
             >
               <RefreshCw className="h-3 w-3 mr-1" />
@@ -418,7 +418,7 @@ export default function HFishHoneypotPlatform() {
             <Button 
               variant="outline" 
               size="sm" 
-              className="text-xs h-7 bg-blue-900/30 hover:bg-blue-800/40 border-blue-700/50 text-blue-300"
+              className="text-xs h-7 bg-blue-900/30 hover:bg-blue-800/40 border-[#003366] text-[#38BBFF]"
               onClick={() => setShowApiConfig(true)}
             >
               <Settings className="h-3 w-3 mr-1" />
@@ -447,131 +447,187 @@ export default function HFishHoneypotPlatform() {
 
         {/* 主内容区域 */}
         <main className="flex-grow p-4 grid grid-cols-12 gap-4">
+          {/* 上方数据卡片区域 */}
+          <div className="col-span-12 grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[#38BBFF] text-sm">本地捕获总数</h3>
+                <Server className="h-5 w-5 text-[#38BBFF]" />
+              </div>
+              <div className="mt-3 font-mono">
+                <span className="text-3xl text-white">{mockData.systemStats.totalAttacks.toLocaleString()}</span>
+              </div>
+              <div className="mt-2 h-1 w-full bg-[#001F3D]">
+                <div className="h-full w-2/3 bg-gradient-to-r from-[#38BBFF] to-[#00FFFC]"></div>
+              </div>
+            </div>
+            
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[#38BBFF] text-sm">活跃蜜罐节点</h3>
+                <Database className="h-5 w-5 text-[#00FFFC]" />
+              </div>
+              <div className="mt-3 font-mono">
+                <span className="text-3xl text-white">{mockData.systemStats.activeHoneyPots}</span>
+              </div>
+              <div className="mt-2 h-1 w-full bg-[#001F3D]">
+                <div className="h-full w-3/4 bg-gradient-to-r from-[#00FFFC] to-[#00FFA3]"></div>
+              </div>
+            </div>
+            
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[#38BBFF] text-sm">账户尝试</h3>
+                <User className="h-5 w-5 text-[#FF5252]" />
+              </div>
+              <div className="mt-3 font-mono">
+                <span className="text-3xl text-white">{mockData.systemStats.accountAttempts}</span>
+              </div>
+              <div className="mt-2 h-1 w-full bg-[#001F3D]">
+                <div className="h-full w-1/2 bg-gradient-to-r from-[#FF5252] to-[#FF9200]"></div>
+              </div>
+            </div>
+            
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[#38BBFF] text-sm">密码统计</h3>
+                <Lock className="h-5 w-5 text-[#FF9200]" />
+              </div>
+              <div className="mt-3 font-mono">
+                <span className="text-3xl text-white">{mockData.systemStats.passwordAttempts}</span>
+              </div>
+              <div className="mt-2 h-1 w-full bg-[#001F3D]">
+                <div className="h-full w-4/5 bg-gradient-to-r from-[#FF9200] to-[#FFDC00]"></div>
+              </div>
+            </div>
+          </div>
+          
           {/* 左侧数据面板 */}
           <div className="col-span-3 space-y-4">
-            {/* 中国 TOP 8 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">TOP 8 in China</h3>
-              <div className="space-y-2">
-                <div className="mb-4">
-                  <div className="relative">
-                    <svg width="100%" height="180" viewBox="0 0 100 100" className="pie-chart">
-                      {mockData.topCountryAttacks.map((attack: CountryAttackCount, index: number) => {
-                        const offset = index * (360 / mockData.topCountryAttacks.length);
-                        const colors = ["#FF6B6B", "#4ECDC4", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "#7B61FF", "#1B998B"];
-                        return (
-                          <g key={attack.country} transform={`rotate(${offset} 50 50)`}>
-                            <path 
-                              d={`M 50 50 L 50 0 A 50 50 0 0 1 85 15 Z`} 
-                              fill={colors[index % colors.length]} 
-                              opacity="0.8"
-                            />
-                            <text 
-                              x="65" 
-                              y="25" 
-                              fontSize="5" 
-                              fill="white"
-                              transform={`rotate(${-offset} 50 50)`}
-                            >
-                              {attack.country}
-                            </text>
-                          </g>
-                        );
-                      })}
-                      <circle cx="50" cy="50" r="25" fill="#0B1622" />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-xs text-blue-300">攻击来源</div>
-                        <div className="text-sm text-white">中国地区</div>
-                      </div>
-                    </div>
-                  </div>
+            {/* 本地捕获IP统计 */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm h-80">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3 flex items-center justify-between">
+                <span>本地捕获IP</span>
+                <div className="h-1.5 w-20 bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-3/4 bg-gradient-to-r from-[#38BBFF] to-[#00FFFC] animate-pulse"></div>
                 </div>
-                <div className="grid grid-cols-4 gap-1 text-xs text-center">
-                  {mockData.topCountryAttacks.slice(0, 8).map((attack: CountryAttackCount, index: number) => {
-                    const colors = ["#FF6B6B", "#4ECDC4", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "#7B61FF", "#1B998B"];
-                    return (
-                      <div key={index} className="flex items-center">
-                        <div 
-                          className="w-2 h-2 rounded-full mr-1" 
-                          style={{ backgroundColor: colors[index % colors.length] }}
-                        ></div>
-                        <span className="truncate">{attack.country}</span>
-                      </div>
-                    );
-                  })}
+              </h3>
+              
+              <div className="text-center mb-8">
+                <div className="relative inline-block">
+                  <svg viewBox="0 0 200 200" width="140" height="140">
+                    <defs>
+                      <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#38BBFF" />
+                        <stop offset="100%" stopColor="#00FFFC" />
+                      </linearGradient>
+                    </defs>
+                    {Array.from({length: 5}).map((_, i) => (
+                      <circle
+                        key={i}
+                        cx="100"
+                        cy="100"
+                        r={80 - i * 15}
+                        fill="none"
+                        stroke="url(#gradient1)"
+                        strokeWidth="1"
+                        opacity={0.2 + i * 0.15}
+                      />
+                    ))}
+                    <text x="100" y="106" textAnchor="middle" className="text-2xl font-mono fill-white">{mockData.allAttacks.length}</text>
+                    <text x="100" y="130" textAnchor="middle" className="text-xs font-mono fill-[#38BBFF]">高频IP总数</text>
+                  </svg>
+                </div>
+              </div>
+              
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between items-center">
+                  <span className="text-red-400">危险: </span>
+                  <span className="font-mono text-white">0</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#FF9200]">中国: </span>
+                  <span className="font-mono text-white">0</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#00FFFC]">国外: </span>
+                  <span className="font-mono text-white">0</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-[#38BBFF]">总计: </span>
+                  <span className="font-mono text-white">{mockData.allAttacks.length}</span>
                 </div>
               </div>
             </div>
-
-            {/* 全球 TOP 8 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">Global TOP 8</h3>
-              <div className="mb-4">
-                <div className="relative">
-                  <svg width="100%" height="180" viewBox="0 0 100 100" className="pie-chart">
-                    {mockData.topCountryAttacks.map((attack: CountryAttackCount, index: number) => {
-                      const offset = index * (360 / mockData.topCountryAttacks.length);
-                      const colors = ["#FF6B6B", "#4ECDC4", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "#7B61FF", "#1B998B"];
-                      return (
-                        <g key={attack.country} transform={`rotate(${offset} 50 50)`}>
-                          <path 
-                            d={`M 50 50 L 50 0 A 50 50 0 0 1 85 15 Z`} 
-                            fill={colors[index % colors.length]} 
-                            opacity="0.8"
-                          />
-                          <text 
-                            x="65" 
-                            y="25" 
-                            fontSize="5" 
-                            fill="white"
-                            transform={`rotate(${-offset} 50 50)`}
-                          >
-                            {attack.country}
-                          </text>
-                        </g>
-                      );
-                    })}
-                    <circle cx="50" cy="50" r="25" fill="#0B1622" />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-xs text-blue-300">攻击来源</div>
-                      <div className="text-sm text-white">全球分布</div>
-                    </div>
-                  </div>
+            
+            {/* 本地攻击类型统计 */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm h-80">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3 flex items-center justify-between">
+                <span>本地攻击类型统计</span>
+                <div className="h-1.5 w-20 bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-1/2 bg-gradient-to-r from-[#FFD057] to-[#FFAA0D] animate-pulse"></div>
                 </div>
-              </div>
-              <div className="grid grid-cols-4 gap-1 text-xs text-center">
-                {mockData.topCountryAttacks.slice(0, 8).map((attack: CountryAttackCount, index: number) => {
-                  const colors = ["#FF6B6B", "#4ECDC4", "#FFD166", "#06D6A0", "#118AB2", "#073B4C", "#7B61FF", "#1B998B"];
+              </h3>
+              
+              <div className="h-64 flex items-center justify-center space-x-3">
+                {mockData.attackTypeCounts.slice(0, 6).map((attack: any, i: number) => {
+                  const height = 20 + (attack.percentage * 1.5);
+                  const colors = [
+                    ["#FF6B6B", "#FF3333"],
+                    ["#FFD057", "#FFAA0D"],
+                    ["#38BBFF", "#0090FF"],
+                    ["#00FFFC", "#00C8FF"],
+                    ["#FF9200", "#FF5000"],
+                    ["#FF4F87", "#FF0055"]
+                  ];
                   return (
-                    <div key={index} className="flex items-center">
+                    <div key={i} className="flex flex-col items-center justify-end h-full">
                       <div 
-                        className="w-2 h-2 rounded-full mr-1" 
-                        style={{ backgroundColor: colors[index % colors.length] }}
-                      ></div>
-                      <span className="truncate">{attack.country}</span>
+                        className="w-6 rounded-t-full overflow-hidden transition-all duration-700"
+                        style={{
+                          height: `${height}%`,
+                          background: `linear-gradient(180deg, ${colors[i][0]} 0%, ${colors[i][1]} 100%)`
+                        }}
+                      >
+                        <div className="h-full w-full opacity-30 animate-pulse"></div>
+                      </div>
+                      <div className="mt-2 text-[10px] font-mono text-white whitespace-nowrap transform -rotate-45 origin-top-left">
+                        {attack.type}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             </div>
-
-            {/* IP TOP 10 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">IP TOP 10</h3>
-              <div className="space-y-2">
-                {mockData.allAttacks.slice(0, 10).map((attack: AttackData, index: number) => (
-                  <div key={index} className="flex items-center justify-between text-xs">
-                    <div className="flex items-center">
-                      <div className="w-5 h-5 rounded-full bg-blue-800 flex items-center justify-center mr-2 text-[10px]">
-                        {index + 1}
+            
+            {/* 最近事件 */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3 flex items-center justify-between">
+                <span>最近攻击事件</span>
+                <div className="h-1.5 w-20 bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-4/5 bg-gradient-to-r from-[#FF4F87] to-[#FF0055] animate-pulse"></div>
+                </div>
+              </h3>
+              
+              <div className="space-y-3 relative">
+                <div className="absolute top-0 bottom-0 left-[7px] w-0.5 bg-[#003366] z-0"></div>
+                {mockData.attacks.slice(0, 3).map((attack: AttackData, index: number) => (
+                  <div key={index} className="flex items-start space-x-3 relative z-10">
+                    <div className="bg-[#38BBFF] w-3.5 h-3.5 rounded-full flex-shrink-0 mt-0.5 shadow-glow"></div>
+                    <div className="bg-[#001F3D]/50 border border-[#003366] p-2 rounded w-full">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-[#FF4F87]">{attack.time}</span>
+                        <span className="text-[#00FFFC]">{attack.type}</span>
                       </div>
-                      <span className="text-blue-100">{attack.sourceIP}</span>
+                      <div className="mt-1 text-white text-xs flex items-center">
+                        <span className="font-mono">{attack.sourceIP}</span>
+                        <span className="mx-2 text-[#38BBFF]">→</span>
+                        <span className="text-[#FFAA0D]">{attack.node}</span>
+                      </div>
+                      <div className="mt-1 text-[#38BBFF] text-xs">
+                        {attack.country} {attack.region}
+                      </div>
                     </div>
-                    <div className="text-blue-300">{Math.floor(Math.random() * 100) + 1}</div>
                   </div>
                 ))}
               </div>
@@ -580,67 +636,113 @@ export default function HFishHoneypotPlatform() {
 
           {/* 中间世界地图 */}
           <div className="col-span-6">
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 h-full shadow-lg flex flex-col">
-              <div className="relative flex-grow" ref={mapContainerRef}>
-                {/* 世界地图背景 */}
-                <div className="absolute inset-0 world-map-container">
-                  <div className="world-map-grid"></div>
-                  
-                  {/* 大陆轮廓 */}
-                  <div className="continent continent-asia"></div>
-                  <div className="continent continent-europe"></div>
-                  <div className="continent continent-africa"></div>
-                  <div className="continent continent-north-america"></div>
-                  <div className="continent continent-south-america"></div>
-                  <div className="continent continent-australia"></div>
-                  
-                  {/* HFish Logo */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="text-center">
-                      <h1 className="text-5xl font-bold text-white/80 tracking-wider">HFish</h1>
-                      <h2 className="text-2xl text-blue-300/70 mt-2">Honeypot Platform</h2>
-                    </div>
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 h-full backdrop-blur-sm flex flex-col">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-[#38BBFF] text-sm flex items-center">
+                  <Globe className="h-4 w-4 mr-1 text-[#00FFFC]" />
+                  <span>全球攻击分布</span>
+                </h3>
+                <div className="flex space-x-2">
+                  <div className="bg-[#001F3D] px-2 py-0.5 rounded text-xs text-[#38BBFF] flex items-center border border-[#003366]">
+                    <Clock className="h-3 w-3 mr-1" />
+                    实时
                   </div>
-                  
-                  {/* 固定的蜜罐节点 */}
-                  <div className="honeypot-node" style={{ left: '22%', top: '30%' }}>
-                    <div className="ping-effect"></div>
-                  </div>
-                  <div className="honeypot-node" style={{ left: '48%', top: '26%' }}>
-                    <div className="ping-effect"></div>
-                  </div>
-                  <div className="honeypot-node" style={{ left: '77%', top: '35%' }}>
-                    <div className="ping-effect"></div>
-                  </div>
-                  <div className="honeypot-node" style={{ left: '65%', top: '52%' }}>
-                    <div className="ping-effect"></div>
-                  </div>
-                  <div className="honeypot-node" style={{ left: '35%', top: '60%' }}>
-                    <div className="ping-effect"></div>
+                  <div className="bg-[#001F3D] px-2 py-0.5 rounded text-xs text-[#FF4F87] flex items-center border border-[#003366]">
+                    <AlertTriangle className="h-3 w-3 mr-1" />
+                    高危警报
                   </div>
                 </div>
               </div>
               
+              <div className="relative flex-grow" ref={mapContainerRef}>
+                {/* 世界地图背景 */}
+                <div className="absolute inset-0 world-map-container">
+                  <div className="world-map-grid-enhanced"></div>
+                  
+                  {/* 地图网格上的闪烁点 */}
+                  {Array.from({length: 20}).map((_, i) => {
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const size = Math.random() * 1 + 0.5;
+                    const delay = Math.random() * 5;
+                    return (
+                      <div 
+                        key={i}
+                        className="absolute w-1 h-1 bg-[#38BBFF] rounded-full animate-pulse-slow"
+                        style={{
+                          left: `${x}%`,
+                          top: `${y}%`,
+                          width: `${size}px`,
+                          height: `${size}px`,
+                          animationDelay: `${delay}s`
+                        }}
+                      ></div>
+                    );
+                  })}
+                  
+                  {/* 主要国家/地区标记 */}
+                  <div className="absolute left-[22%] top-[30%] map-location">
+                    <div className="location-marker" data-country="美国"></div>
+                  </div>
+                  <div className="absolute left-[48%] top-[26%] map-location">
+                    <div className="location-marker" data-country="欧洲"></div>
+                  </div>
+                  <div className="absolute left-[77%] top-[35%] map-location">
+                    <div className="location-marker" data-country="中国"></div>
+                  </div>
+                  <div className="absolute left-[65%] top-[52%] map-location">
+                    <div className="location-marker" data-country="澳洲"></div>
+                  </div>
+                  <div className="absolute left-[35%] top-[60%] map-location">
+                    <div className="location-marker" data-country="南美"></div>
+                  </div>
+                  
+                  {/* 雷达扫描效果 */}
+                  <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/2 h-1/2">
+                    <div className="radar-scan"></div>
+                  </div>
+                  
+                  {/* 大陆轮廓 - 使用矢量样式替代原来的简化版本 */}
+                  <div className="continent-vector north-america"></div>
+                  <div className="continent-vector south-america"></div>
+                  <div className="continent-vector europe"></div>
+                  <div className="continent-vector africa"></div>
+                  <div className="continent-vector asia"></div>
+                  <div className="continent-vector australia"></div>
+                </div>
+              </div>
+              
               {/* 攻击列表 */}
-              <div className="mt-4">
+              <div className="mt-3 border-t border-[#003366] pt-3">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-[#38BBFF] text-sm flex items-center">
+                    <AlertTriangle className="h-4 w-4 mr-1 text-[#FF4F87]" />
+                    <span>实时攻击记录</span>
+                  </h3>
+                  <div className="text-xs text-[#00FFFC]">显示最新6条</div>
+                </div>
                 <table className="w-full text-xs border-collapse">
                   <thead>
-                    <tr className="text-blue-300 border-b border-blue-800/50">
-                      <th className="py-2 text-left">Type</th>
-                      <th className="py-2 text-left">node</th>
-                      <th className="py-2 text-left">Source IP</th>
-                      <th className="py-2 text-left">Geographic information</th>
-                      <th className="py-2 text-left">Attack time</th>
+                    <tr className="text-[#38BBFF] border-b border-[#003366]">
+                      <th className="py-2 text-left">类型</th>
+                      <th className="py-2 text-left">节点</th>
+                      <th className="py-2 text-left">源IP</th>
+                      <th className="py-2 text-left">地理位置</th>
+                      <th className="py-2 text-left">攻击时间</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="cyberpunk-table">
                     {mockData.attacks.map((attack: AttackData) => (
-                      <tr key={attack.id} className="border-b border-blue-900/30 hover:bg-blue-900/20">
-                        <td className="py-2">{attack.type}</td>
-                        <td className="py-2">{attack.node}</td>
-                        <td className="py-2">{attack.sourceIP}</td>
-                        <td className="py-2">{attack.country} {attack.region}</td>
-                        <td className="py-2">{attack.time}</td>
+                      <tr key={attack.id} className="cyber-row border-b border-[#003366]/30 hover:bg-[#00254D]/30">
+                        <td className="py-2">
+                          <span className="cyber-tag bg-[#001F3D] border border-[#FF4F87]/50 px-1.5 rounded text-[#FF4F87]">
+                            {attack.type}
+                          </span>
+                        </td>
+                        <td className="py-2 text-[#00FFFC]">{attack.node}</td>
+                        <td className="py-2 font-mono text-white">{attack.sourceIP}</td>
+                        <td className="py-2 text-[#FFAA0D]">{attack.country} {attack.region}</td>
+                        <td className="py-2 text-[#38BBFF]">{attack.time}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -651,125 +753,140 @@ export default function HFishHoneypotPlatform() {
 
           {/* 右侧攻击统计 */}
           <div className="col-span-3 space-y-4">
-            {/* 攻击类型 TOP 10 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">Attack type TOP 10</h3>
-              <div className="space-y-3">
-                {mockData.attackTypeCounts.slice(0, 5).map((attack: AttackTypeCount, index: number) => (
-                  <div key={index}>
-                    <div className="flex justify-between text-xs mb-1">
-                      <span>{attack.type}</span>
-                      <span>{attack.count}</span>
-                    </div>
-                    <Progress value={attack.percentage} className="h-1.5" indicatorClassName="bg-gradient-to-r from-blue-500 to-cyan-400" />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 账户统计 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">Account statistics</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="h-20 w-20 mx-auto relative flex items-center justify-center">
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                      <circle 
-                        cx="50" 
-                        cy="50" 
-                        r="45" 
-                        fill="none" 
-                        stroke="#1e3a5f" 
-                        strokeWidth="10" 
-                      />
-                      <circle 
-                        cx="50" 
-                        cy="50" 
-                        r="45" 
-                        fill="none" 
-                        stroke="#38bdf8" 
-                        strokeWidth="10" 
-                        strokeDasharray="283" 
-                        strokeDashoffset="70" 
-                        transform="rotate(-90 50 50)" 
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <User className="h-8 w-8 text-blue-300" />
-                    </div>
-                  </div>
-                  <div className="mt-2 text-sm">{mockData.systemStats.accountAttempts}</div>
-                  <div className="text-xs text-blue-400">账户尝试</div>
+            {/* 云端情报数据 */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm h-80">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3 flex items-center justify-between">
+                <span>云端情报数据</span>
+                <div className="h-1.5 w-20 bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-1/4 bg-gradient-to-r from-[#38BBFF] to-[#00FFFC] animate-pulse"></div>
                 </div>
-                <div className="text-center">
-                  <div className="h-20 w-20 mx-auto relative flex items-center justify-center">
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                      <circle 
-                        cx="50" 
-                        cy="50" 
-                        r="45" 
-                        fill="none" 
-                        stroke="#1e3a5f" 
-                        strokeWidth="10" 
-                      />
-                      <circle 
-                        cx="50" 
-                        cy="50" 
-                        r="45" 
-                        fill="none" 
-                        stroke="#38bdf8" 
-                        strokeWidth="10" 
-                        strokeDasharray="283" 
-                        strokeDashoffset="140" 
-                        transform="rotate(-90 50 50)" 
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Lock className="h-8 w-8 text-blue-300" />
-                    </div>
+              </h3>
+              
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="bg-[#001F3D]/50 border border-[#003366] p-2 rounded text-center">
+                  <div className="text-xs text-[#38BBFF] mb-1">云端收集</div>
+                  <div className="text-white text-lg font-mono">--</div>
+                </div>
+                <div className="bg-[#001F3D]/50 border border-[#003366] p-2 rounded text-center">
+                  <div className="text-xs text-[#38BBFF] mb-1">总数据量</div>
+                  <div className="text-white text-lg font-mono">--</div>
+                </div>
+              </div>
+              
+              <div className="space-y-3 flex-1">
+                <div className="flex justify-between items-center text-xs">
+                  <div className="flex items-center">
+                    <span className="inline-block w-2 h-2 rounded-full bg-[#FF4F87] mr-2"></span>
+                    <span className="text-white">内网节点</span>
                   </div>
-                  <div className="mt-2 text-sm">{mockData.systemStats.passwordAttempts}</div>
-                  <div className="text-xs text-blue-400">密码统计</div>
+                  <span className="text-[#FF4F87] font-mono">7.7k/v</span>
+                </div>
+                <div className="h-1 w-full bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-2/3 bg-gradient-to-r from-[#FF4F87] to-[#FF0055]"></div>
+                </div>
+                
+                <div className="flex justify-between items-center text-xs mt-4">
+                  <div className="flex items-center">
+                    <span className="inline-block w-2 h-2 rounded-full bg-[#FFAA0D] mr-2"></span>
+                    <span className="text-white">外网节点</span>
+                  </div>
+                  <span className="text-[#FFAA0D] font-mono">5.7k/v</span>
+                </div>
+                <div className="h-1 w-full bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-1/2 bg-gradient-to-r from-[#FFAA0D] to-[#FFD057]"></div>
+                </div>
+              </div>
+              
+              <div className="text-right mt-4">
+                <div className="inline-block bg-[#001F3D] px-2 py-0.5 rounded text-xs text-[#38BBFF] border border-[#003366]">
+                  查看详情
                 </div>
               </div>
             </div>
-
-            {/* 最近访问 */}
-            <div className="bg-blue-950/70 rounded-md border border-blue-800/50 p-3 shadow-lg">
-              <h3 className="text-blue-300 text-sm border-b border-blue-800/50 pb-2 mb-3">Recent views</h3>
-              <div className="space-y-3">
-                {mockData.countryAttacks.slice(0, 3).map((attack: CountryAttackCount, index: number) => (
-                  <div key={index} className="flex items-center gap-3 text-xs">
-                    <div className="w-8 h-8 rounded-full bg-blue-900/50 flex items-center justify-center">
-                      <Info className="h-4 w-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <div className="text-white">LS-NET-0{10-index} 网络安全防火墙配置实战</div>
-                      <div className="text-blue-400 mt-1">
-                        {new Date(Date.now() - Math.floor(Math.random() * 8640000)).toISOString().replace('T', ' ').substring(0, 19)}
+            
+            {/* 近期可疑ICS */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm h-80">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3 flex items-center justify-between">
+                <span>近期可疑ICS</span>
+                <div className="h-1.5 w-20 bg-[#001F3D] rounded-full overflow-hidden">
+                  <div className="h-full w-3/4 bg-gradient-to-r from-[#FF4F87] to-[#FF0055] animate-pulse"></div>
+                </div>
+              </h3>
+              
+              <div className="space-y-2">
+                {mockData.allAttacks.slice(0, 5).map((attack: AttackData, index: number) => (
+                  <div key={index} className="bg-[#001F3D]/50 border border-[#003366] p-2 rounded flex justify-between items-center">
+                    <div className="flex items-center">
+                      <div className="w-6 h-6 rounded-full bg-[#001F3D] border border-[#003366] flex items-center justify-center mr-2">
+                        <span className="text-xs text-[#FF4F87]">{index + 1}</span>
+                      </div>
+                      <div>
+                        <div className="text-xs text-white font-mono">{attack.sourceIP}</div>
+                        <div className="text-[10px] text-[#38BBFF]">{attack.country}</div>
                       </div>
                     </div>
+                    <div className="text-[#FF4F87] text-xs">{
+                      Math.floor(Math.random() * 30) + 10
+                    }</div>
                   </div>
                 ))}
+              </div>
+              
+              <div className="text-right mt-4">
+                <div className="inline-block bg-[#001F3D] px-2 py-0.5 rounded text-xs text-[#38BBFF] border border-[#003366]">
+                  查看所有记录
+                </div>
+              </div>
+            </div>
+            
+            {/* 攻击类型分布 */}
+            <div className="bg-[#001529]/80 border border-[#003366] rounded-md p-3 backdrop-blur-sm">
+              <h3 className="text-[#38BBFF] text-sm border-b border-[#003366] pb-2 mb-3">攻击类型 TOP 5</h3>
+              <div className="space-y-3">
+                {mockData.attackTypeCounts.slice(0, 5).map((attack: AttackTypeCount, index: number) => {
+                  // 生成不同的渐变颜色
+                  const gradients = [
+                    'from-[#FF4F87] to-[#FF0055]',
+                    'from-[#FFAA0D] to-[#FFD057]',
+                    'from-[#38BBFF] to-[#00FFFC]',
+                    'from-[#00FFFC] to-[#00FFA3]',
+                    'from-[#FF9200] to-[#FF5000]'
+                  ];
+                  
+                  return (
+                    <div key={index}>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-white">{attack.type}</span>
+                        <span className="text-[#38BBFF] font-mono">{attack.count}</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-[#001F3D] rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full bg-gradient-to-r ${gradients[index]} cyber-progress`}
+                          style={{width: `${attack.percentage}%`}}
+                        ></div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
         </main>
 
         {/* 底部版权 */}
-        <footer className="bg-blue-950/80 border-t border-blue-800 py-2 px-4 text-xs text-blue-400 text-center">
-          HFish Honeypot Platform © {new Date().getFullYear()} - Chryssolion Chen | <span className="text-blue-300">demo</span>
+        <footer className="bg-[#001529]/80 border-t border-[#003366] py-2 px-4 text-xs text-[#38BBFF] text-center">
+          HFish Honeypot Platform © {new Date().getFullYear()} | <span className="text-[#00FFFC]">安全态势感知系统</span>
         </footer>
       </div>
 
       {/* HFish API配置对话框 */}
       {showApiConfig && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-blue-950 border border-blue-800 rounded-lg shadow-xl w-full max-w-md p-6">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-[#001529] border border-[#003366] rounded-lg shadow-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-blue-300">HFish API 配置</h3>
+              <h3 className="text-lg font-bold text-[#38BBFF]">API 配置</h3>
               <button 
-                className="text-blue-400 hover:text-blue-300"
+                className="text-[#38BBFF] hover:text-[#00FFFC]"
                 onClick={() => setShowApiConfig(false)}
               >
                 <X className="h-5 w-5" />
@@ -778,50 +895,66 @@ export default function HFishHoneypotPlatform() {
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm text-blue-400 mb-1">API 服务器地址</label>
+                <label className="block text-sm text-[#38BBFF] mb-1">API 服务器地址</label>
                 <input
                   type="text"
                   name="baseUrl"
                   value={apiConfig.baseUrl}
                   onChange={handleApiConfigChange}
-                  className="w-full px-3 py-2 bg-blue-900/30 border border-blue-800 rounded-md text-blue-100 text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="例如: http://your-hfish-server:4433/api"
+                  className="w-full px-3 py-2 bg-[#001F3D]/50 border border-[#003366] rounded-md text-white text-sm focus:outline-none focus:border-[#38BBFF]"
+                  placeholder="例如: https://Server_IP/api/v1"
                 />
               </div>
               
               <div>
-                <label className="block text-sm text-blue-400 mb-1">API 密钥</label>
+                <label className="block text-sm text-[#38BBFF] mb-1">API 密钥</label>
                 <input
                   type="text"
                   name="apiKey"
                   value={apiConfig.apiKey}
                   onChange={handleApiConfigChange}
-                  className="w-full px-3 py-2 bg-blue-900/30 border border-blue-800 rounded-md text-blue-100 text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="API 密钥"
+                  className="w-full px-3 py-2 bg-[#001F3D]/50 border border-[#003366] rounded-md text-white text-sm focus:outline-none focus:border-[#38BBFF]"
+                  placeholder="YOUR_API_KEY"
                 />
               </div>
               
+              <div className="text-xs text-[#38BBFF] p-3 bg-[#001F3D]/50 border border-[#003366] rounded-md">
+                <p className="font-bold mb-1">API 请求示例：</p>
+                <pre className="overflow-x-auto text-[#00FFFC]">
+                  {`curl --location --request POST 'https://Server_IP/api/v1/attack/ip?api_key=YOUR_API_KEY' \\
+--header 'Content-Type: application/json' \\
+--data '{
+  "start_time": 0,
+  "end_time": 0,
+  "intranet": 0,
+  "threat_label": [
+    "Scanner"
+  ]
+}'`}
+                </pre>
+              </div>
+              
               <div>
-                <label className="block text-sm text-blue-400 mb-1">用户名</label>
+                <label className="block text-sm text-[#38BBFF] mb-1">用户名 (可选)</label>
                 <input
                   type="text"
                   name="username"
                   value={apiConfig.username}
                   onChange={handleApiConfigChange}
-                  className="w-full px-3 py-2 bg-blue-900/30 border border-blue-800 rounded-md text-blue-100 text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="HFish 管理员用户名"
+                  className="w-full px-3 py-2 bg-[#001F3D]/50 border border-[#003366] rounded-md text-white text-sm focus:outline-none focus:border-[#38BBFF]"
+                  placeholder="管理员用户名"
                 />
               </div>
               
               <div>
-                <label className="block text-sm text-blue-400 mb-1">密码</label>
+                <label className="block text-sm text-[#38BBFF] mb-1">密码 (可选)</label>
                 <input
                   type="password"
                   name="password"
                   value={apiConfig.password}
                   onChange={handleApiConfigChange}
-                  className="w-full px-3 py-2 bg-blue-900/30 border border-blue-800 rounded-md text-blue-100 text-sm focus:outline-none focus:border-blue-500"
-                  placeholder="HFish 管理员密码"
+                  className="w-full px-3 py-2 bg-[#001F3D]/50 border border-[#003366] rounded-md text-white text-sm focus:outline-none focus:border-[#38BBFF]"
+                  placeholder="管理员密码"
                 />
               </div>
             </div>
@@ -830,14 +963,14 @@ export default function HFishHoneypotPlatform() {
               <Button 
                 variant="outline" 
                 size="sm"
-                className="text-blue-300 border-blue-800 hover:bg-blue-900/50"
+                className="text-[#38BBFF] border-[#003366] hover:bg-[#001F3D]/50"
                 onClick={() => setShowApiConfig(false)}
               >
                 取消
               </Button>
               <Button 
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-500 text-white flex items-center"
+                className="bg-gradient-to-r from-[#38BBFF] to-[#00FFFC] hover:from-[#00FFFC] hover:to-[#38BBFF] text-[#001529] flex items-center"
                 onClick={saveApiConfig}
               >
                 <Save className="h-4 w-4 mr-1" />
@@ -852,18 +985,19 @@ export default function HFishHoneypotPlatform() {
       <style jsx global>{`
         /* 基础样式 */
         body {
-          background-color: #0B1622;
+          background-color: #000C18;
           color: #c5d8f1;
-          font-family: 'Consolas', monospace;
+          font-family: 'Consolas', 'Menlo', monospace;
         }
         
         /* 加载动画 */
         .loading-spinner {
           width: 50px;
           height: 50px;
-          border: 5px solid rgba(59, 130, 246, 0.2);
+          border: 3px solid rgba(0, 255, 252, 0.1);
           border-radius: 50%;
-          border-top-color: #3b82f6;
+          border-top-color: #38BBFF;
+          box-shadow: 0 0 15px rgba(0, 255, 252, 0.5);
           animation: spin 1s linear infinite;
         }
         
@@ -873,21 +1007,20 @@ export default function HFishHoneypotPlatform() {
         
         /* 世界地图样式增强 */
         .world-map-container {
-          background-color: #081221;
-          border-radius: 8px;
+          background-color: #00070F;
+          border-radius: 4px;
           overflow: hidden;
           position: relative;
           box-shadow: 0 0 30px rgba(0, 40, 80, 0.4) inset;
-          backdrop-filter: blur(10px);
         }
         
-        .world-map-grid {
+        .world-map-grid-enhanced {
           position: absolute;
           inset: 0;
           background-image: 
-            linear-gradient(rgba(25, 93, 156, 0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(25, 93, 156, 0.15) 1px, transparent 1px);
-          background-size: 30px 30px;
+            linear-gradient(rgba(56, 187, 255, 0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56, 187, 255, 0.07) 1px, transparent 1px);
+          background-size: 20px 20px;
           animation: grid-pulse 8s infinite linear;
         }
         
@@ -897,115 +1030,71 @@ export default function HFishHoneypotPlatform() {
           100% { opacity: 0.5; }
         }
         
-        /* 粒子背景 */
-        .world-map-container::before {
+        /* 雷达扫描效果 */
+        .radar-scan {
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          border: 1px solid rgba(56, 187, 255, 0.3);
+          position: relative;
+          animation: radar-rotate 4s linear infinite;
+        }
+        
+        .radar-scan::before {
           content: '';
           position: absolute;
-          inset: 0;
-          background-image: radial-gradient(circle at center, transparent 70%, rgba(56, 189, 248, 0.1) 100%);
-          z-index: 1;
-          animation: radar-sweep 10s infinite linear;
-        }
-        
-        @keyframes radar-sweep {
-          0% { transform: scale(0.9); opacity: 0.3; }
-          50% { transform: scale(1.1); opacity: 0.6; }
-          100% { transform: scale(0.9); opacity: 0.3; }
-        }
-        
-        /* 大陆样式增强 */
-        .continent {
-          position: absolute;
-          background-color: rgba(25, 93, 156, 0.2);
-          border: 1px solid rgba(56, 189, 248, 0.4);
-          box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-          transition: all 0.3s ease;
-        }
-        
-        .continent:hover {
-          background-color: rgba(25, 93, 156, 0.4);
-          box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-        }
-        
-        .continent-asia {
-          width: 25%;
-          height: 25%;
-          top: 30%;
-          left: 65%;
-          border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-          animation: float 8s infinite ease-in-out;
-        }
-        
-        .continent-europe {
-          width: 12%;
-          height: 12%;
-          top: 25%;
-          left: 48%;
-          border-radius: 40% 50% 50% 40% / 30% 50% 50% 40%;
-          animation: float 7s infinite ease-in-out;
-          animation-delay: 1s;
-        }
-        
-        .continent-africa {
-          width: 18%;
-          height: 22%;
-          top: 40%;
-          left: 47%;
-          border-radius: 40% 30% 60% 30% / 40% 40% 60% 30%;
-          animation: float 9s infinite ease-in-out;
-          animation-delay: 0.5s;
-        }
-        
-        .continent-north-america {
-          width: 20%;
-          height: 20%;
-          top: 25%;
-          left: 20%;
-          border-radius: 30% 50% 50% 60% / 50% 50% 70% 40%;
-          animation: float 8.5s infinite ease-in-out;
-          animation-delay: 2s;
-        }
-        
-        .continent-south-america {
-          width: 12%;
-          height: 18%;
-          top: 55%;
-          left: 30%;
-          border-radius: 40% 30% 40% 50% / 40% 40% 60% 60%;
-          animation: float 7.5s infinite ease-in-out;
-          animation-delay: 1.5s;
-        }
-        
-        .continent-australia {
-          width: 10%;
-          height: 8%;
-          top: 60%;
-          left: 75%;
-          border-radius: 50% 60% 50% 40% / 40% 50% 40% 50%;
-          animation: float 6.5s infinite ease-in-out;
-          animation-delay: 0.7s;
-        }
-        
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-5px); }
-          100% { transform: translateY(0px); }
-        }
-        
-        /* 蜜罐节点样式增强 */
-        .honeypot-node {
-          position: absolute;
-          width: 14px;
-          height: 14px;
-          background: radial-gradient(circle at center, #60dffb, #38bdf8);
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: conic-gradient(from 0deg, rgba(56, 187, 255, 0) 0%, rgba(0, 255, 252, 0.5) 20%, rgba(56, 187, 255, 0) 40%);
           border-radius: 50%;
-          box-shadow: 0 0 15px #38bdf8, 0 0 5px #38bdf8, 0 0 30px #38bdf8;
-          z-index: 10;
-          filter: drop-shadow(0 0 1px rgba(56, 189, 248, 0.8));
         }
         
-        /* 脉冲效果增强 */
-        .ping-effect {
+        @keyframes radar-rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        
+        /* 轻微闪烁效果 */
+        .animate-pulse-slow {
+          animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse-slow {
+          0%, 100% { opacity: 0.8; }
+          50% { opacity: 0.2; }
+        }
+        
+        /* 地图位置标记 */
+        .map-location {
+          z-index: 10;
+        }
+        
+        .location-marker {
+          width: 12px;
+          height: 12px;
+          background: radial-gradient(circle at center, rgba(56, 187, 255, 0.8), rgba(0, 255, 252, 0.3));
+          border-radius: 50%;
+          box-shadow: 0 0 10px rgba(56, 187, 255, 0.8);
+          position: relative;
+          animation: location-pulse 2s ease-in-out infinite;
+        }
+        
+        .location-marker::before {
+          content: attr(data-country);
+          position: absolute;
+          top: -18px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 10px;
+          white-space: nowrap;
+          color: #38BBFF;
+          text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .location-marker::after {
+          content: '';
           position: absolute;
           top: 50%;
           left: 50%;
@@ -1013,29 +1102,91 @@ export default function HFishHoneypotPlatform() {
           width: 100%;
           height: 100%;
           border-radius: 50%;
-          background-color: rgba(56, 189, 248, 0.6);
-          animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+          border: 1px solid rgba(56, 187, 255, 0.5);
+          animation: location-ring 2s ease-out infinite;
         }
         
-        @keyframes ping {
-          0% {
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 0.8;
-          }
-          80%, 100% {
-            transform: translate(-50%, -50%) scale(4);
-            opacity: 0;
-          }
+        @keyframes location-pulse {
+          0% { transform: scale(0.8); }
+          50% { transform: scale(1.1); }
+          100% { transform: scale(0.8); }
+        }
+        
+        @keyframes location-ring {
+          0% { width: 100%; height: 100%; opacity: 1; }
+          100% { width: 300%; height: 300%; opacity: 0; }
+        }
+        
+        /* 大陆矢量样式 */
+        .continent-vector {
+          position: absolute;
+          background-color: rgba(56, 187, 255, 0.05);
+          border: 1px solid rgba(0, 255, 252, 0.2);
+          box-shadow: 0 0 15px rgba(56, 187, 255, 0.1);
+          transition: all 0.3s ease;
+        }
+        
+        .continent-vector:hover {
+          background-color: rgba(56, 187, 255, 0.15);
+          box-shadow: 0 0 20px rgba(56, 187, 255, 0.3);
+        }
+        
+        .north-america {
+          width: 22%;
+          height: 18%;
+          top: 22%;
+          left: 18%;
+          clip-path: polygon(30% 0%, 60% 10%, 90% 30%, 100% 60%, 80% 100%, 30% 90%, 0% 70%, 10% 40%);
+        }
+        
+        .south-america {
+          width: 12%;
+          height: 18%;
+          top: 52%;
+          left: 28%;
+          clip-path: polygon(40% 0%, 80% 20%, 100% 60%, 60% 100%, 20% 90%, 0% 60%, 10% 30%);
+        }
+        
+        .europe {
+          width: 12%;
+          height: 10%;
+          top: 22%;
+          left: 48%;
+          clip-path: polygon(10% 0%, 40% 10%, 80% 0%, 100% 30%, 90% 80%, 60% 100%, 20% 90%, 0% 60%);
+        }
+        
+        .africa {
+          width: 16%;
+          height: 20%;
+          top: 36%;
+          left: 46%;
+          clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 90% 70%, 80% 100%, 40% 90%, 10% 70%, 0% 40%);
+        }
+        
+        .asia {
+          width: 28%;
+          height: 22%;
+          top: 20%;
+          left: 62%;
+          clip-path: polygon(0% 20%, 30% 0%, 70% 10%, 90% 30%, 100% 60%, 80% 90%, 50% 100%, 20% 80%, 10% 50%);
+        }
+        
+        .australia {
+          width: 10%;
+          height: 8%;
+          top: 60%;
+          left: 78%;
+          clip-path: polygon(30% 0%, 70% 10%, 100% 40%, 80% 90%, 40% 100%, 10% 80%, 0% 40%);
         }
         
         /* 攻击点动画增强 */
         .attack-pulse {
           position: absolute;
-          width: 10px;
-          height: 10px;
-          background: radial-gradient(circle at center, #ff6b6b, #ef4444);
+          width: 8px;
+          height: 8px;
+          background: radial-gradient(circle at center, #FF4F87, #FF0055);
           border-radius: 50%;
-          box-shadow: 0 0 15px #ef4444, 0 0 5px #ef4444, 0 0 30px #ef4444;
+          box-shadow: 0 0 15px #FF4F87, 0 0 5px #FF0055, 0 0 30px #FF0055;
           z-index: 20;
           transform: translate(-50%, -50%);
           animation: attack-pulse 2s forwards;
@@ -1049,7 +1200,7 @@ export default function HFishHoneypotPlatform() {
           50% {
             transform: translate(-50%, -50%) scale(1.5);
             opacity: 1;
-            box-shadow: 0 0 30px #ef4444, 0 0 10px #ef4444, 0 0 45px #ef4444;
+            box-shadow: 0 0 30px #FF4F87, 0 0 10px #FF0055, 0 0 45px #FF0055;
           }
           100% {
             transform: translate(-50%, -50%) scale(1);
@@ -1062,13 +1213,13 @@ export default function HFishHoneypotPlatform() {
           position: absolute;
           height: 2px;
           background: linear-gradient(90deg, 
-            rgba(239, 68, 68, 0.9),
-            rgba(239, 68, 68, 0.1)
+            rgba(255, 79, 135, 0.9),
+            rgba(255, 0, 85, 0.1)
           );
           transform-origin: left center;
           z-index: 15;
           animation: attack-line 2s forwards;
-          box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+          box-shadow: 0 0 10px rgba(255, 79, 135, 0.5);
         }
         
         @keyframes attack-line {
@@ -1082,7 +1233,7 @@ export default function HFishHoneypotPlatform() {
           }
           50% {
             opacity: 1;
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
+            box-shadow: 0 0 15px rgba(255, 79, 135, 0.7);
           }
           100% {
             opacity: 0;
@@ -1090,141 +1241,107 @@ export default function HFishHoneypotPlatform() {
           }
         }
         
-        /* 卡片样式增强 */
-        .bg-blue-950\/70 {
-          backdrop-filter: blur(5px);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 
-                      0 0 1px 1px rgba(56, 189, 248, 0.1);
-          transition: all 0.3s ease;
-        }
-        
-        .bg-blue-950\/70:hover {
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 
-                      0 0 2px 1px rgba(56, 189, 248, 0.2);
-          transform: translateY(-2px);
-        }
-        
-        /* 表格悬停效果 */
-        tbody tr {
+        /* 表格行科技感样式 */
+        .cyberpunk-table .cyber-row {
           transition: all 0.2s ease;
-          border-left: 2px solid transparent;
-        }
-        
-        tbody tr:hover {
-          background-color: rgba(59, 130, 246, 0.15) !important;
-          border-left: 2px solid rgba(56, 189, 248, 0.6);
-        }
-        
-        /* 进度条增强 */
-        .bg-hfish-dark {
-          background-color: #0B1622;
-        }
-        
-        /* 粒子背景效果 */
-        body::before {
-          content: '';
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-image: 
-            radial-gradient(rgba(56, 189, 248, 0.1) 1px, transparent 1px),
-            radial-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px);
-          background-size: 30px 30px;
-          background-position: 0 0, 15px 15px;
-          z-index: -1;
-          animation: bg-scroll 120s infinite linear;
-        }
-        
-        @keyframes bg-scroll {
-          from { background-position: 0 0, 15px 15px; }
-          to { background-position: 500px 500px, 515px 515px; }
-        }
-        
-        /* 立体效果和光晕 */
-        .pie-chart path {
-          transition: all 0.3s ease;
-          filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.2));
-        }
-        
-        .pie-chart path:hover {
-          transform: translateY(-3px) scale(1.02);
-          filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.3));
-        }
-        
-        /* 导航栏增强 */
-        header {
-          backdrop-filter: blur(10px);
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        
-        /* 按钮悬停效果 */
-        button {
-          transition: all 0.3s ease;
-        }
-        
-        button:hover {
-          box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
-        }
-        
-        /* IP列表高亮效果 */
-        [class*="flex items-center"]:hover {
-          transform: translateX(3px);
-          transition: transform 0.2s ease;
-        }
-        
-        /* 数据面板标题下划线动画 */
-        h3 {
           position: relative;
+          overflow: hidden;
         }
         
-        h3::after {
+        .cyberpunk-table .cyber-row::before {
           content: '';
           position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 1px;
-          background: linear-gradient(90deg, 
-            rgba(56, 189, 248, 0.8), 
-            rgba(59, 130, 246, 0.2)
-          );
-          transition: width 0.3s ease;
-        }
-        
-        .bg-blue-950\/70:hover h3::after {
+          left: -100%;
+          top: 0;
           width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(56, 187, 255, 0.1), 
+            transparent
+          );
+          transition: all 0.5s ease;
         }
         
-        /* 圆形统计图增强 */
-        svg circle[stroke="#38bdf8"] {
-          filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.5));
-          transition: all 0.3s ease;
+        .cyberpunk-table .cyber-row:hover::before {
+          left: 100%;
         }
         
-        svg:hover circle[stroke="#38bdf8"] {
-          filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.7));
+        .cyber-tag {
+          position: relative;
+          overflow: hidden;
         }
         
-        /* 流光按钮效果 */
-        .bg-blue-600 {
-          background: linear-gradient(90deg, #3b82f6, #0ea5e9, #38bdf8, #3b82f6);
-          background-size: 300% 100%;
-          animation: gradient-shift 6s infinite ease-in-out;
+        .cyber-tag::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 79, 135, 0.2), 
+            transparent
+          );
+          animation: cyber-tag-shine 3s infinite;
         }
         
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+        @keyframes cyber-tag-shine {
+          0% { left: -100%; }
+          20% { left: 100%; }
+          100% { left: 100%; }
         }
         
-        /* 对话框模糊背景 */
-        .fixed.inset-0.bg-black\/70 {
-          backdrop-filter: blur(5px);
+        /* 进度条动画 */
+        .cyber-progress {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .cyber-progress::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 50%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.2), 
+            transparent
+          );
+          animation: progress-shine 2s infinite;
+        }
+        
+        @keyframes progress-shine {
+          0% { left: -50%; }
+          100% { left: 100%; }
+        }
+        
+        /* 阴影发光效果 */
+        .shadow-glow {
+          box-shadow: 0 0 10px rgba(56, 187, 255, 0.7), 
+                      0 0 20px rgba(0, 255, 252, 0.4);
+        }
+
+        /* 灯笼动画效果整合 */
+        .vvhan-com-denglong-c {
+          color: #FF4F87 !important;
+          text-shadow: 0 0 5px rgba(255, 79, 135, 0.8) !important;
+        }
+        
+        .vvhan-com-denglong-a {
+          box-shadow: 0 0 20px rgba(255, 79, 135, 0.5) !important;
+        }
+        
+        /* 灯笼挂件外观集成到新主题 */
+        .vvhan-com-denglong-b {
+          background: linear-gradient(to bottom, #FF4F87, #FF0055) !important;
+          border: 1px solid rgba(255, 79, 135, 0.5) !important;
         }
       `}</style>
     </>
   );
 }
+
