@@ -169,4 +169,30 @@ export async function searchPosts(query: string): Promise<Post[]> {
     post.tags?.some(tag => tag.toLowerCase().includes(searchTerm)) ||
     post.category?.toLowerCase().includes(searchTerm)
   );
+}
+
+// 从数据库获取帖子时处理tags
+export function processDatabasePost(post: any) {
+  if (!post) return null;
+  
+  try {
+    // 如果tags是字符串，尝试解析JSON
+    if (typeof post.tags === 'string') {
+      post.tags = JSON.parse(post.tags);
+    }
+    // 确保tags始终是数组
+    if (!Array.isArray(post.tags)) {
+      post.tags = [];
+    }
+  } catch (e) {
+    console.error('处理标签时出错:', e);
+    post.tags = [];
+  }
+  
+  return post;
+}
+
+// 处理多个帖子
+export function processDatabasePosts(posts: any[]) {
+  return posts.map(post => processDatabasePost(post));
 } 

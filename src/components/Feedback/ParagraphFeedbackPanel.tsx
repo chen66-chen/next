@@ -54,13 +54,14 @@ export default function ParagraphFeedbackPanel({
   
   return (
     <div className="relative group">
-      {/* 段落反馈指示器 - 当有反馈时显示 */}
+      {/* 段落反馈指示器 - 当有反馈时显示，仅显示一个最主要的 */}
       {hasActiveFeedback && (
         <div 
-          className="absolute -left-8 top-0 flex flex-col items-center space-y-1"
+          className="absolute -left-8 top-0 flex flex-col items-center"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {hasConfusion && (
+          {/* 优先级：困惑 > 灵感 > 思考中，只显示一个图标 */}
+          {hasConfusion ? (
             <motion.div 
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
@@ -69,9 +70,7 @@ export default function ParagraphFeedbackPanel({
             >
               ❓
             </motion.div>
-          )}
-          
-          {hasInspiration && (
+          ) : hasInspiration ? (
             <motion.div 
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
@@ -80,12 +79,9 @@ export default function ParagraphFeedbackPanel({
             >
               💡
             </motion.div>
-          )}
-          
-          {/* 其他反馈类型指示器 */}
-          {feedbackCounts[FeedbackType.THINKING] > 0 && (
+          ) : feedbackCounts[FeedbackType.THINKING] > 0 ? (
             <span className="text-blue-500 dark:text-blue-400 cursor-pointer text-xl">🤔</span>
-          )}
+          ) : null}
         </div>
       )}
       

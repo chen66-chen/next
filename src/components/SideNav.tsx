@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Home, BookOpen, User, Mail, ChevronRight, ChevronLeft,
-  Moon, Sun, Menu, X
+  Moon, Sun, Menu, X, Settings, Shield
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 interface SideNavProps {
   className?: string;
@@ -43,6 +44,7 @@ export default function SideNav({ className }: SideNavProps) {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   // 从localStorage初始化主题
   useEffect(() => {
@@ -108,12 +110,15 @@ export default function SideNav({ className }: SideNavProps) {
   const navItems = [
     { name: "首页", href: "/", icon: Home, style: "text-foreground font-['MiSans']" },
     { name: "技术支持", href: "/style1", icon: BookOpen, style: "text-site1-primary font-['KuaiKanShiJieTi']" },
-    { name: "小臣のWeb", href: "/style2", icon: BookOpen, style: "text-site2-primary font-['NotoSerifSC']" },
     { name: "Chryssolion Chen安全小窝", href: "/style3", icon: BookOpen, style: "text-site3-primary font-['HanTang']" },
     { name: "Chryssolion Chen", href: "/style4", icon: BookOpen, style: "text-site4-primary font-['MiSans']" },
     { name: "Chryssolion Chen.0", href: "/style5", icon: BookOpen, style: "text-site5-primary font-noto" },
     { name: "关于", href: "/about", icon: User, style: "text-foreground font-['MiSans']" },
     { name: "联系", href: "/contact", icon: Mail, style: "text-foreground font-['MiSans']" },
+    // 管理员导航项 - 仅对管理员显示
+    ...(session?.user?.role === 'admin' ? [
+      { name: "管理后台", href: "/admin", icon: Shield, style: "text-red-500 font-bold font-['MiSans']" },
+    ] : []),
   ];
 
   return (

@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
       published: true,
       coverImage: body.coverImage || '/images/default-cover.jpg',
       author: body.author || '匿名',
-      tags: body.tags || [],
+      // 标签处理 - 确保是数组
+      tags: Array.isArray(body.tags) ? body.tags : [],
       date: new Date().toISOString(),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -60,13 +61,10 @@ export async function POST(request: NextRequest) {
     // 将文章保存到文件系统
     try {
       const filePath = path.join(POSTS_DIR, `${postId}.json`);
-      // 确保中文字符正确编码
+      // 确保中文字符正确编码 - 修复编码问题
       const jsonContent = JSON.stringify(newPost, null, 2);
-      fs.writeFileSync(
-        filePath,
-        jsonContent,
-        'utf8'
-      );
+      // 使用utf8编码写入文件
+      fs.writeFileSync(filePath, jsonContent, 'utf8');
       console.log('文章保存成功:', filePath);
     } catch (err) {
       console.error('保存文章到文件失败:', err);
@@ -101,9 +99,24 @@ export async function GET() {
     const posts = files
       .filter(file => file.endsWith('.json'))
       .map(file => {
-        const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf-8');
-        return JSON.parse(content);
+        try {
+          const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
+          const post = JSON.parse(content);
+          // 确保标签是数组
+          if (typeof post.tags === 'string') {
+            try {
+              post.tags = JSON.parse(post.tags);
+            } catch (e) {
+              post.tags = [];
+            }
+          }
+          return post;
+        } catch (error) {
+          console.error(`读取文件 ${file} 失败:`, error);
+          return null;
+        }
       })
+      .filter(Boolean) // 过滤掉无法解析的文件
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     
     return NextResponse.json(posts);

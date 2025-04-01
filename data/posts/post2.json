@@ -1,0 +1,17 @@
+{
+  "id": "post2",
+  "title": "局域网",
+  "description": "局域网（LAN）拓扑与网络基础概念总结",
+  "date": "2025-03-19",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/6.png",
+  "category": "网工笔记",
+  "tags": [
+    "ACL",
+    "网络配置"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n局域网（LAN）拓扑与网络基础概念总结\n\n这里可以添加更多内容。",
+  "createdAt": "2025-03-19",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

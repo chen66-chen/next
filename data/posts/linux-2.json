@@ -1,0 +1,18 @@
+{
+  "id": "linux-2",
+  "title": "Linux文件系统详解",
+  "description": "深入理解Linux文件系统的结构、类型和管理方法，掌握文件操作的核心概念。",
+  "date": "2025-03-20",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/7.jpg",
+  "category": "Linux",
+  "tags": [
+    "Linux",
+    "文件系统",
+    "存储"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n深入理解Linux文件系统的结构、类型和管理方法，掌握文件操作的核心概念。\n\n这里可以添加更多内容。",
+  "createdAt": "2025-03-20",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

@@ -73,6 +73,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
           code({node, inline, className, children, ...props}: any) {
             const match = /language-(\w+)/.exec(className || '')
             const isCommandLine = match && (match[1] === 'bash' || match[1] === 'sh')
+            const isHttp = match && match[1] === 'http'
             
             if (!inline && match) {
               // 修复对象转换为字符串的问题
@@ -81,6 +82,22 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                 : String(children);
               
               let formattedContent = rawContent.replace(/\n$/, '')
+              
+              // HTTP请求块特殊渲染
+              if (isHttp) {
+                return (
+                  <div className="overflow-hidden rounded-md">
+                    {/* HTTP请求内容 */}
+                    <div className="bg-[#1e1e1e] text-white p-3 font-mono text-sm">
+                      {formattedContent.split('\n').map((line, index) => (
+                        <div key={index} className={index === 0 ? "mb-1" : ""}>
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              }
               
               // 增强命令行显示效果
               if (isCommandLine) {

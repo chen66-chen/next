@@ -1,0 +1,19 @@
+{
+  "id": "linux-3",
+  "title": "Linux Shell脚本编程精通",
+  "description": "学习Shell脚本编程的核心概念和技巧，提高自动化能力和工作效率。",
+  "date": "2025-03-22",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/9.jpg",
+  "category": "Linux",
+  "tags": [
+    "Linux",
+    "Shell",
+    "Bash",
+    "脚本编程"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n学习Shell脚本编程的核心概念和技巧，提高自动化能力和工作效率。\n\n这里可以添加更多内容。",
+  "createdAt": "2025-03-22",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

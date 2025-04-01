@@ -19,8 +19,6 @@ export default function BodyClassProvider({
   let bodyClassName = '';
   if (pathname?.startsWith('/style1')) {
     bodyClassName = 'style1-body';
-  } else if (pathname?.startsWith('/style2')) {
-    bodyClassName = 'style2-body';
   } else if (pathname?.startsWith('/style3')) {
     bodyClassName = 'style3-body';
   } else if (pathname?.startsWith('/style4')) {

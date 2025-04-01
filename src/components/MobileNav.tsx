@@ -123,7 +123,6 @@ export default function MobileNav() {
   const navItems = [
     { name: "首页", href: "/", icon: Home, style: "text-foreground font-['MiSans']" },
     { name: "技术支持", href: "/style1", icon: BookOpen, style: "text-site1-primary font-['KuaiKanShiJieTi']" },
-    { name: "小臣のWeb", href: "/style2", icon: BookOpen, style: "text-site2-primary font-['NotoSerifSC']" },
     { name: "Chryssolion Chen安全小窝", href: "/style3", icon: BookOpen, style: "text-site3-primary font-['HanTang']" },
     { name: "Chryssolion Chen", href: "/style4", icon: BookOpen, style: "text-site4-primary font-['MiSans']" },
     { name: "Chryssolion Chen.0", href: "/style5", icon: BookOpen, style: "text-site5-primary font-noto" },

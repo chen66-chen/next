@@ -296,9 +296,8 @@ export function PostClient({ post }: PostClientProps) {
               </div>
             )}
             
-            {/* 文章内容 */}
+            {/* 文章内容 - 统一使用FeedbackProcessor组件渲染所有类型文章 */}
             <div className={contentClass}>
-              {/* 根据内容类型选择不同的渲染器 - 同时保留反馈系统功能 */}
               <FeedbackProcessor
                 articleId={post.id}
                 content={post.content}

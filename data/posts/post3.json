@@ -1,0 +1,17 @@
+{
+  "id": "post3",
+  "title": "安全运营中心（SOC）核心要素解析",
+  "description": "详细介绍SOC的核心职责、数据源体系和服务矩阵，帮助企业构建高效安全防御体系。",
+  "date": "2022-11-08",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/5.jpg",
+  "category": "安全",
+  "tags": [
+    "SOC",
+    "网络安全"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n详细介绍SOC的核心职责、数据源体系和服务矩阵，帮助企业构建高效安全防御体系。\n\n这里可以添加更多内容。",
+  "createdAt": "2022-11-08",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

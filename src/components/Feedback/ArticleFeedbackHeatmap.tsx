@@ -130,17 +130,18 @@ export default function ArticleFeedbackHeatmap({
                     <div className="text-xs text-gray-500 dark:text-gray-400">
                       段落 #{index + 1}
                     </div>
-                    <div className="flex gap-1">
-                      {paragraph.feedbacks.slice(0, 3).map(feedback => (
-                        <span key={feedback.id} title={`${feedback.count} ${feedback.type}`}>
-                          {feedback.type === FeedbackType.THINKING && '🤔'}
-                          {feedback.type === FeedbackType.INSPIRED && '💡'}
-                          {feedback.type === FeedbackType.CONFUSED && '❓'}
-                          {feedback.type === FeedbackType.AGREE && '👍'}
-                          {feedback.type === FeedbackType.DISAGREE && '👎'}
-                          {feedback.type === FeedbackType.LOVE && '❤️'}
+                    <div>
+                      {/* 只显示最主要的反馈类型 */}
+                      {topFeedback && (
+                        <span title={`${topFeedback.count} ${topFeedback.type}`}>
+                          {topFeedback.type === FeedbackType.THINKING && '🤔'}
+                          {topFeedback.type === FeedbackType.INSPIRED && '💡'}
+                          {topFeedback.type === FeedbackType.CONFUSED && '❓'}
+                          {topFeedback.type === FeedbackType.AGREE && '👍'}
+                          {topFeedback.type === FeedbackType.DISAGREE && '👎'}
+                          {topFeedback.type === FeedbackType.LOVE && '❤️'}
                         </span>
-                      ))}
+                      )}
                     </div>
                   </div>
                   

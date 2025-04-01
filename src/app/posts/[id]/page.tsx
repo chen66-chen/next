@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { PostClient } from './PostClient';
 import fs from 'fs';
 import path from 'path';
+import prisma from '@/lib/prisma';
 
 // 定义文章类型接口
 interface Post {
@@ -48,6 +49,45 @@ async function getPostFromFile(id: string): Promise<Post | null> {
     };
   } catch (error) {
     console.error(`获取文章失败: ${id}`, error);
+    return null;
+  }
+}
+
+// 从Prisma数据库获取文章
+async function getPostFromDatabase(slug: string): Promise<Post | null> {
+  try {
+    const post = await prisma.post.findUnique({
+      where: { slug },
+      include: {
+        author: {
+          select: {
+            name: true,
+            image: true,
+          }
+        },
+        category: true,
+        tags: true
+      }
+    });
+
+    if (!post) {
+      return null;
+    }
+
+    return {
+      id: post.slug, // 使用slug作为id以保持一致性
+      title: post.title,
+      description: post.excerpt || '',
+      date: post.createdAt.toISOString().split('T')[0],
+      author: post.author?.name || '匿名',
+      coverImage: post.coverImage || '/images/default-cover.jpg',
+      category: post.category?.name || '未分类',
+      tags: post.tags.map(tag => tag.name),
+      content: post.content,
+      style: 'style1' // 默认样式
+    };
+  } catch (error) {
+    console.error(`从数据库获取文章失败: ${slug}`, error);
     return null;
   }
 }
@@ -665,91 +705,15 @@ const postsDatabase: Record<string, Post> = {
   },
   "post7": {
     id: "post7",
-    title: "Halo主题定制指南",
-    description: "如何根据个人喜好定制你的Halo博客主题，包括颜色、字体、布局等方面的调整。",
+    title: "渗透测试实战步骤总结",
+    description: "详细展示SSH登录提权、NMAP扫描+FTP提权和防火墙防御CC攻击的实战案例",
     date: "2025-02-20",
     author: "Chryssolion Chen",
     coverImage: "/images/12.jpg",
-    category: "Theme",
-    tags: ["Halo", "定制", "教程"],
+    category: "渗透",
+    tags: ["渗透", "测试", "SSH"],
     content: `
-      <h2>Halo博客主题定制入门</h2>
-      
-      <p>Halo是一款优秀的开源博客系统，它不仅提供了丰富的主题选择，还允许用户根据个人喜好进行深度定制。本文将详细介绍如何定制你的Halo博客主题。</p>
-      
-      <h3>基础设置调整</h3>
-      
-      <p>在开始深入定制之前，我们先来了解Halo后台提供的基础设置选项：</p>
-      
-      <ol>
-        <li><strong>主题选择</strong>：在控制台的"外观"→"主题"中，你可以浏览并安装各种不同风格的主题</li>
-        <li><strong>主题设置</strong>：每个主题通常都有自己的设置选项，包括颜色、布局、显示元素等</li>
-        <li><strong>菜单管理</strong>：在"外观"→"菜单"中，你可以自定义导航菜单的结构和内容</li>
-        <li><strong>小工具</strong>：许多主题支持在侧边栏或页脚添加各种小工具</li>
-      </ol>
-      
-      <h3>颜色定制</h3>
-      
-      <p>大多数Halo主题都支持颜色定制，你可以通过以下方式调整：</p>
-      
-      <ul>
-        <li>使用主题自带的颜色方案选择器</li>
-        <li>修改主题的CSS变量（如果主题支持）</li>
-        <li>使用自定义CSS覆盖默认样式</li>
-      </ul>
-      
-      <p>以Xingdu主题为例，在主题设置中，你可以找到"颜色设置"选项，在那里可以调整主色调、次要色调、背景色等。</p>
-      
-      <h3>字体定制</h3>
-      
-      <p>字体对博客的整体感觉有很大影响。你可以通过以下方式定制字体：</p>
-      
-      <ol>
-        <li>使用主题提供的字体选择器（如果有）</li>
-        <li>通过自定义CSS引入Web字体：</li>
-      </ol>
-      
-       /* 自定义CSS示例 */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC&display=swap');
-
-body {
-  font-family: 'Noto Serif SC', serif;
-}
-
-h1, h2, h3 {
-  font-family: 'Noto Sans SC', sans-serif;
-}  
-      
-      <h3>高级定制：主题模板修改</h3>
-      
-      <p>如果你有编程基础，可以进行更深入的定制：</p>
-      
-      <ol>
-        <li><strong>克隆主题</strong>：将喜欢的主题源码克隆到本地</li>
-        <li><strong>修改模板</strong>：Halo主题通常使用Freemarker模板引擎，你可以修改.ftl文件</li>
-        <li><strong>自定义JS/CSS</strong>：在主题的static目录中添加或修改资源文件</li>
-        <li><strong>重新打包</strong>：修改完成后，将主题打包并上传到Halo</li>
-      </ol>
-      
-      <div class="warning">
-        <p><strong>注意</strong>：修改主题源码前，请先备份原文件，并确保理解代码的功能，避免造成不可逆的错误。</p>
-      </div>
-      
-      <h3>响应式设计调整</h3>
-      
-      <p>确保你的博客在各种设备上都能良好显示是很重要的。可以通过以下方式优化响应式设计：</p>
-      
-      <ul>
-        <li>使用媒体查询调整不同屏幕尺寸下的显示效果</li>
-        <li>测试博客在手机、平板和桌面设备上的显示</li>
-        <li>确保图片和视频能够自适应屏幕宽度</li>
-      </ul>
-      
-      <h3>总结</h3>
-      
-      <p>通过以上方法，你可以将Halo博客主题打造成完全符合个人风格的独特设计。记住，好的设计既美观又实用，应该在视觉吸引力和用户体验之间找到平衡。</p>
-      
-      <p>如果你有任何关于Halo主题定制的问题，欢迎在评论区留言讨论！</p>
+      <h2>渗透测试实战步骤总结</h2>
     `,
     style: 'style1'
   },
@@ -2922,7 +2886,14 @@ fi</code></pre>
 };
 
 export default async function PostPage({ params }: { params: { id: string } }) {
-  // 首先尝试从文件系统获取文章
+  // 首先尝试从Prisma数据库获取文章
+  const postFromPrisma = await getPostFromDatabase(params.id);
+  
+  if (postFromPrisma) {
+    return <PostClient post={postFromPrisma} />;
+  }
+  
+  // 如果数据库中没有，尝试从文件系统获取文章
   const postFromFile = await getPostFromFile(params.id);
   
   // 如果文件系统有这篇文章，就使用它
@@ -2943,6 +2914,17 @@ export default async function PostPage({ params }: { params: { id: string } }) {
 
 // 生成所有可能的文章路径参数
 export async function generateStaticParams() {
+  // 获取所有Prisma数据库中的文章
+  let databaseIds: string[] = [];
+  try {
+    const dbPosts = await prisma.post.findMany({
+      select: { slug: true }
+    });
+    databaseIds = dbPosts.map(post => post.slug);
+  } catch (error) {
+    console.error('获取数据库文章失败:', error);
+  }
+  
   // 获取所有文件系统中的文章ID
   let fileIds: string[] = [];
   try {
@@ -2959,8 +2941,8 @@ export async function generateStaticParams() {
   // 获取硬编码的文章ID
   const hardcodedIds = Object.keys(postsDatabase);
   
-  // 合并两种来源的ID，并去重
-  const allIds = [...new Set([...fileIds, ...hardcodedIds])];
+  // 合并三种来源的ID，并去重
+  const allIds = [...new Set([...databaseIds, ...fileIds, ...hardcodedIds])];
   
   // 返回所有文章ID的数组，用于静态生成
   return allIds.map(id => ({

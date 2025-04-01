@@ -40,13 +40,13 @@ const posts = [
   },
   {
     id: "post7",
-    title: "Halo主题定制指南",
-    description: "如何根据个人喜好定制你的Halo博客主题，包括颜色、字体、布局等方面的调整。",
+    title: "渗透测试实战步骤总结",
+    description: "详细展示SSH登录提权、NMAP扫描+FTP提权和防火墙防御CC攻击的实战案例",
     date: "2025-02-20",
     author: "Chryssolion Chen",
     coverImage: "/images/12.jpg",
-    category: "Theme",
-    tags: ["Halo", "定制", "教程"]
+    category: "渗透",
+    tags: ["渗透", "测试", "SSH"]
   },
   {
     id: "post8",

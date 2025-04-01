@@ -1,0 +1,17 @@
+{
+  "id": "post6",
+  "title": "WordPress博客主题Kratos",
+  "description": "一个简洁优雅的WordPress主题",
+  "date": "2024-09-28",
+  "author": "Echo",
+  "coverImage": "https://ext.same-assets.com/1727594840/896323414.png",
+  "category": "Learn",
+  "tags": [
+    "WordPress",
+    "主题"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n一个简洁优雅的WordPress主题\n\n这里可以添加更多内容。",
+  "createdAt": "2024-09-28",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

@@ -49,6 +49,12 @@ export default function RootLayout({
                 } else {
                   document.documentElement.classList.remove('dark');
                 }
+                
+                // 检查是否是风格页面
+                const isStylePage = window.location.pathname.startsWith('/style');
+                if (isStylePage) {
+                  document.documentElement.classList.add('style-page');
+                }
               } catch (e) {}
             `,
           }}

@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation"
 
 // 导入重构后的组件和数据
 import { PostCard, CategoryList, TagCloud, Author, Footer } from "@/components"
-import { posts } from "@/data/posts"
+import { posts as staticPosts, Post } from "@/data/posts"
 import { styleConfigs } from "@/data/siteConfig"
 import { useScrollPosition } from "@/hooks/useScrollPosition"
 
@@ -22,8 +22,50 @@ export default function Home() {
   const router = useRouter();
   const { saveScrollPosition, restoreScrollPosition } = useScrollPosition();
   
+  // 添加状态来存储动态文章
+  const [allPosts, setAllPosts] = useState<Post[]>([...staticPosts]);
+  const [loading, setLoading] = useState(false);
+  
+  // 从API获取文章数据
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/posts');
+        if (!response.ok) {
+          throw new Error('获取文章失败');
+        }
+        
+        const data = await response.json();
+        console.log('从API获取的文章:', data); // 调试用
+        console.log('静态文章:', staticPosts); // 调试用
+        
+        if (Array.isArray(data) && data.length > 0) {
+          // 不再过滤掉ID冲突的文章，直接使用API返回的所有文章
+          const apiPosts = data.map((post: any) => ({
+            ...post,
+            // 确保标签是数组格式
+            tags: Array.isArray(post.tags) ? post.tags : 
+                  typeof post.tags === 'string' ? JSON.parse(post.tags) : []
+          }));
+          
+          console.log('处理后的API文章:', apiPosts); // 调试用
+          
+          // 合并API文章和静态文章，API文章优先显示
+          setAllPosts([...apiPosts, ...staticPosts]);
+        }
+      } catch (error) {
+        console.error('获取文章失败:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchPosts();
+  }, []);
+  
   // 选择多篇文章展示
-  const featuredPosts = posts.slice(0, 5);
+  const featuredPosts = allPosts.slice(0, 5);
   
   // 处理分类点击
   const handleCategoryClick = (category: string) => {
@@ -118,7 +160,7 @@ export default function Home() {
               
               {/* 使用PostCard组件显示更多文章 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-10 mx-auto relative">
-                {posts.slice(5, 9).map((post) => (
+                {allPosts.slice(5, 9).map((post) => (
                   <PostCard 
                     key={post.id}
                     post={post} 
@@ -169,13 +211,13 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* 分类模块 - 使用CategoryList组件 */}
             <CategoryList 
-              posts={posts} 
+              posts={allPosts} 
               onCategoryClick={handleCategoryClick} 
             />
 
             {/* 标签云 - 使用TagCloud组件 */}
             <TagCloud 
-              posts={posts} 
+              posts={allPosts} 
               onTagClick={handleTagClick} 
             />
 

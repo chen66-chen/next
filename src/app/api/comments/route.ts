@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { commentService } from '@/services/commentService';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import { sensitiveWordFilter } from '@/services/sensitiveWordFilter';
 
 /**
  * 获取评论列表
@@ -11,6 +12,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get('postId');
     const postSlug = searchParams.get('postSlug');
+    const includeAll = searchParams.get('includeAll') === 'true';
+    const session = await getServerSession(authOptions);
+    const isAdmin = session?.user?.role === 'admin';
 
     if (!postId && !postSlug) {
       return NextResponse.json(
@@ -19,9 +23,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // 管理员可以看到所有评论，普通用户只能看到已批准的评论
+    const status = (isAdmin && includeAll) ? undefined : 'approved';
+    
     const comments = await commentService.getComments(
       postId || '',
-      postSlug || undefined
+      postSlug || undefined,
+      status
     );
 
     return NextResponse.json(comments);
@@ -41,6 +49,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     const data = await request.json();
+    const isAdmin = session?.user?.role === 'admin';
 
     // 验证必需字段
     if (!data.content) {
@@ -56,13 +65,28 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+    
+    // 检查敏感词
+    const containsSensitiveWords = sensitiveWordFilter.containsSensitiveWords(data.content);
+    
+    // 过滤敏感词
+    const filteredContent = sensitiveWordFilter.filterText(data.content);
+    
+    // 设置评论状态：管理员评论自动通过，包含敏感词的评论自动拒绝，其他待审核
+    let status = 'pending';
+    if (isAdmin) {
+      status = 'approved';
+    } else if (containsSensitiveWords) {
+      status = 'rejected';
+    }
 
     // 准备评论数据
     const commentData = {
-      content: data.content,
+      content: filteredContent,
       postId: data.postId,
       postSlug: data.postSlug || data.postId,
       parentId: data.parentId,
+      status,
       // 如果用户已登录，使用登录用户信息
       ...(session?.user?.id && { userId: session.user.id }),
       // 如果用户未登录，使用提供的访客信息
@@ -83,6 +107,19 @@ export async function POST(request: NextRequest) {
 
     // 创建评论
     const comment = await commentService.createComment(commentData);
+
+    // 根据敏感词检查结果返回不同的消息
+    if (containsSensitiveWords && !isAdmin) {
+      return NextResponse.json({
+        ...comment,
+        message: '您的评论包含敏感词，已被标记为需要审核。'
+      }, { status: 201 });
+    } else if (!isAdmin) {
+      return NextResponse.json({
+        ...comment,
+        message: '评论已提交，等待管理员审核后显示。'
+      }, { status: 201 });
+    }
 
     return NextResponse.json(comment, { status: 201 });
   } catch (error) {

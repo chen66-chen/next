@@ -1,0 +1,18 @@
+{
+  "id": "linux-1",
+  "title": "Linux基础入门指南",
+  "description": "从零开始学习Linux的基础知识，包括常用命令、文件系统和基本操作。",
+  "date": "2025-03-18",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/4.jpg",
+  "category": "Linux",
+  "tags": [
+    "Linux",
+    "入门",
+    "命令行"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n从零开始学习Linux的基础知识，包括常用命令、文件系统和基本操作。\n\n这里可以添加更多内容。",
+  "createdAt": "2025-03-18",
+  "updatedAt": "2025-03-31T21:33:24.922Z"
+}

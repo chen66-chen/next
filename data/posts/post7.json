@@ -1,0 +1,19 @@
+{
+  "id": "post7",
+  "title": "渗透测试实战步骤总结",
+  "description": "详细展示SSH登录提权、NMAP扫描+FTP提权和防火墙防御CC攻击的实战案例",
+  "date": "2025-02-15",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/12.jpg",
+  "category": "网络安全",
+  "tags": [
+    "渗透测试",
+    "SSH提权",
+    "NMAP",
+    "防火墙配置"
+  ],
+  "published": true,
+  "content": "# 渗透测试实战步骤总结\n## 场景一：SSH登录提权流程\n```http\n---\n1. 通过弱密码登录SSH用户\n\n$ssh username@target_ip  # 示例：ssh johnny@10.10.226.38\n```\n- 输入弱密码（如 `abc123`）完成登录。\n### 2. 检查历史命令记录\n```http\n$history\n```\n- **关键点**：查找用户误操作（如明文密码输入、提权命令）。\n- **示例发现**：  \n  ```http\n    su - root\n    password: happyHack!NG  # 发现root密码\n  ```\n### 3. 提权至root账户\n```http\nsu - root\n```\n- 输入历史记录中发现的密码（如 `happyHack!NG`）。\n### 4. 访问敏感文件\n```http\ncat /root/flag.txt          # 查看root目录下的标志文件\ncat /home/user/secret.txt   # 检查其他用户文件\n```\n- **典型结果**：  \n  ```http\n  THM{YouGotRoot}\n  ```\n---\n## 场景二：NMAP扫描+FTP提权流程\n### 1. 扫描目标开放服务\n```http\nnmap target_ip  # 示例：nmap 10.10.250.183\n```\n- **常见结果**：  \n```http\n---\n  PORT   STATE SERVICE\n  21/tcp open  ftp    # 重点关注\n  22/tcp open  ssh\n  80/tcp open  http\n```\n\n### 2. 匿名登录FTP服务器\n```http\nftp target_ip\n```\n- 输入用户名 `anonymous`，密码留空或任意值。\n- **成功标志**：`230 Login successful.`\n\n### 3. 下载敏感文件\n```http\nls              # 列出文件\nget secret.txt  # 下载含密码的文件\nexit            # 退出FTP\n```\n- **文件内容示例**：  \n```http\n  password: ABC789xyz123  # root密码泄露\n```\n\n### 4. 通过SSH提权至root\n```http\nssh root@target_ip\n```\n- 输入FTP中获取的密码（如 `ABC789xyz123`）。\n### 5. 全面访问系统文件\n```http\ncd /home         # 进入用户目录\ncat */flag.txt   # 遍历所有用户的标志文件\n```\n- **典型收获**：  \n  ```http\n  /root/flag.txt → THM{FTP_SERVER_OWNED}\n  /home/librarian/flag.txt → THM{LIBRARIAN_ACCOUNT_COMPROMISED}\n  ```\n---\n\n## 场景三：防火墙实战案例：CC攻击防御与规则验证\n### 一、攻击场景分析\n**攻击特征**：  \n外部IP `198.51.100.34` 对Web服务器 `203.0.110.1:80` 发起CC攻击（Challenge Collapsar），表现为高频HTTP请求导致服务过载\n**危害评估**：  \n- 服务不可用（违反**可用性**原则）  \n- 潜在的数据泄露风险（若攻击混杂渗透行为）\n### 二、防御规则配置详解\n#### 1. 核心iptables命令\n```http\n---\n### 防御规则配置\n# 阻止特定攻击源访问Web服务 \niptables -A INPUT -s 198.51.100.34 -d 203.0.110.1 -p tcp --dport 80 -j DROP\n```\n### 规则效果验证\n| 测试方向                 | 预期结果 | 实际结果   |\n| -------------------- | ---- | ------ |\n| 198.51.100.34 → 80端口 | 阻断   | ✅ 成功   |\n| 合法用户IP → 80端口        | 放行   | ✅ 正常   |\n| 攻击源其他端口访问            | 放行   | ⚠️ 需监控 |\n##### **参数解析**：\n\n| 参数           | 作用          | 关联场景                                                                         |\n| ------------ | ----------- | ---------------------------------------------------------------------------- |\n| `-A INPUT`   | 追加规则到INPUT链 | 控制入站流量[8](https://cloud.tencent.com/document/product/627/64336)              |\n| `-s`         | 指定源IP       | 精准锁定攻击源[4](https://m.blog.csdn.net/weixin_33894992/article/details/89872196) |\n| `-d`         | 指定目标IP      | 保护特定服务器[4](https://m.blog.csdn.net/weixin_33894992/article/details/89872196) |\n| `--dport 80` | 匹配目标端口      | 针对HTTP服务防护[8](https://cloud.tencent.com/document/product/627/64336)          |\n| `-j DROP`    | 丢弃符合条件的数据包  | 直接阻断攻击                                                                       |\n\n## 关键注意事项\n1. **密码复用风险**：若发现密码（如 `ABC789xyz123`），需测试其在其他服务/用户中的复用情况。\n2. **权限最小化**：提权后优先检查 `/etc/passwd` 和 `/etc/shadow` 文件。\n3. **痕迹清理**：完成操作后清除 `.bash_history` 避免留下日志。\n4. **防御建议**：\n   - 禁用FTP匿名登录\n   - 配置SSH密钥认证替代密码\n   - 定期审计用户命令历史\n流程图示例：\n```mermaid\ngraph TD\n  subgraph SSH提权链\n    A[SSH弱密码登录] --> B{检查history}\n    B -->|发现root密码| C[su - root提权]\n    C --> D[访问敏感文件]\n  end\n\n  subgraph FTP提权链\n    E[NMAP扫描] --> F{发现FTP服务}\n    F --> G[匿名登录下载文件]\n    G -->|获取root密码| H[SSH提权]\n    H --> D\n  end\n```",
+  "createdAt": "2025-02-15",
+  "updatedAt": "2025-04-01T00:00:00.000Z"
+}

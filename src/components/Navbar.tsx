@@ -73,9 +73,6 @@ export default function Navbar() {
           <Link href="/style1" className="font-['KuaiKanShiJieTi'] text-site1-primary hover:text-site1-blue transition-colors">
             技术支持
           </Link>
-          <Link href="/style2" className="font-['NotoSerifSC'] text-site2-primary hover:text-site2-teal transition-colors">
-            小臣のWeb
-          </Link>
           <Link href="/style5" className="font-noto text-site5-primary hover:text-site5-teal transition-colors">
             Chryssolion Chen.0
           </Link>
@@ -182,13 +179,6 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             >
               技术支持
-            </Link>
-            <Link
-              href="/style2"
-              className="font-['NotoSerifSC'] text-site2-primary hover:text-site2-teal transition-colors py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              小臣のWeb
             </Link>
             <Link
               href="/style5"

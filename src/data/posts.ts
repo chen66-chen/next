@@ -122,16 +122,6 @@ export const posts: Post[] = [
     tags: ["minio", "教程"]
   },
   {
-    id: "post8",
-    title: "2021年的某一天",
-    description: "2021年的某一天，天空格外湛蓝，仿佛被水洗过一般",
-    date: "2023-12-10",
-    author: "昆昆鱼",
-    coverImage: "https://ext.same-assets.com/2189857954/3060987925.webp",
-    category: "生活随笔",
-    tags: ["天空", "随笔"]
-  },
-  {
     id: "post10",
     title: "TCP/IP网络协议详解",
     description: "TCP/IP是互联网的基础协议，本文深入剖析TCP/IP的工作原理及其在网络中的核心作用。",

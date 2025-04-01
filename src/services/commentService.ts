@@ -9,6 +9,7 @@ export interface CommentData {
   authorName?: string;
   authorEmail?: string;
   authorImage?: string;
+  status?: string; // 评论状态: pending, approved, rejected
 }
 
 export const commentService = {
@@ -16,8 +17,9 @@ export const commentService = {
    * 获取文章评论
    * @param postId 文章ID
    * @param postSlug 文章Slug
+   * @param status 评论状态过滤
    */
-  async getComments(postId: string, postSlug?: string) {
+  async getComments(postId: string, postSlug?: string, status?: string) {
     const query: any = {};
     
     if (postId) {
@@ -26,6 +28,11 @@ export const commentService = {
     
     if (postSlug) {
       query.postSlug = postSlug;
+    }
+    
+    // 如果提供了状态，按状态过滤
+    if (status) {
+      query.status = status;
     }
     
     // 获取顶级评论（没有父评论的评论）
@@ -52,6 +59,12 @@ export const commentService = {
               }
             }
           },
+          // 如果过滤了评论状态，也同样过滤回复的状态
+          ...(status && {
+            where: {
+              status
+            }
+          }),
           orderBy: {
             createdAt: 'asc'
           }
@@ -79,6 +92,7 @@ export const commentService = {
           postId: data.postId,
           postSlug: data.postSlug,
           userId: data.userId,
+          status: data.status || 'pending',
           ...(data.parentId && { parentId: data.parentId })
         },
         include: {
@@ -107,6 +121,7 @@ export const commentService = {
             postId: data.postId,
             postSlug: data.postSlug,
             userId: existingUser.id,
+            status: data.status || 'pending',
             ...(data.parentId && { parentId: data.parentId })
           },
           include: {
@@ -136,6 +151,7 @@ export const commentService = {
               postId: data.postId,
               postSlug: data.postSlug,
               userId: user.id,
+              status: data.status || 'pending',
               ...(data.parentId && { parentId: data.parentId })
             },
             include: {
@@ -151,5 +167,63 @@ export const commentService = {
         });
       }
     }
+  },
+  
+  /**
+   * 更新评论状态
+   * @param id 评论ID
+   * @param status 状态
+   */
+  async updateCommentStatus(id: string, status: string) {
+    return await prisma.comment.update({
+      where: { id },
+      data: { status },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          }
+        }
+      }
+    });
+  },
+  
+  /**
+   * 批准评论
+   * @param id 评论ID
+   */
+  async approveComment(id: string) {
+    return this.updateCommentStatus(id, 'approved');
+  },
+  
+  /**
+   * 拒绝评论
+   * @param id 评论ID
+   */
+  async rejectComment(id: string) {
+    return this.updateCommentStatus(id, 'rejected');
+  },
+  
+  /**
+   * 获取待审核评论
+   */
+  async getPendingComments() {
+    return await prisma.comment.findMany({
+      where: { status: 'pending' },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
   }
 }; 

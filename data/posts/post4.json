@@ -1,0 +1,16 @@
+{
+  "id": "post4",
+  "title": "渗透测试实战总结",
+  "description": "详细介绍SSH登录提权流程、NMAP扫描+FTP提权流程、防火墙实战案例等渗透测试技术",
+  "date": "2025-03-03",
+  "author": "Chryssolion Chen",
+  "coverImage": "/images/3.jpg",
+  "category": "渗透",
+  "tags": [
+    "网络"
+  ],
+  "published": true,
+  "content": "这是从示例文章导入的内容。\n\n详细介绍SSH登录提权流程、NMAP扫描+FTP提权流程、防火墙实战案例等渗透测试技术\n\n这里可以添加更多内容。",
+  "createdAt": "2025-03-03",
+  "updatedAt": "2025-03-31T21:33:24.924Z"
+}

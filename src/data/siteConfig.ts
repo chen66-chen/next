@@ -24,17 +24,6 @@ export const styleConfigs: StyleConfig[] = [
     cardClass: 'post-card post-card-site1 group h-full'
   },
   {
-    id: 'style2',
-    name: '小臣のWeb风格',
-    description: '优雅、精致的卡片设计，色彩丰富，适合技术内容的展示。',
-    authorFilter: 'Chryssolion Chen',
-    bgColor: 'bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-950/20 dark:to-pink-900/20',
-    borderColor: 'border-pink-200 dark:border-pink-800',
-    buttonBgColor: 'border-site2-accent text-site2-primary hover:bg-site2-accent/10',
-    route: '/style2',
-    cardClass: 'post-card post-card-site2 group h-full'
-  },
-  {
     id: 'style3',
     name: '小臣小窝风格',
     description: '深色系设计，简洁且专注于内容的呈现，适合程序员和开发者阅读。',

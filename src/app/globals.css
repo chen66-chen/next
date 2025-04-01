@@ -42,12 +42,6 @@
     --site1-dark: 222.2 47.4% 11.2%;
     --site1-warning: 38 92% 50%;
 
-    /* Site2 风格 - 小臣のWeb */
-    --site2-primary: 347 77% 50%;
-    --site2-secondary: 238 78% 58%;
-    --site2-light: 0 0% 98%;
-    --site2-dark: 240 10% 4%;
-    --site2-accent: 140 80% 43%;
 
     /* Site3 风格 - Chryssolion Chen安全小窝 */
     --site3-primary: 222 47% 11%;
@@ -329,27 +323,21 @@
   color: white;
 }
 
-/* Mac风格终端代码块 - 全局版本 */
+/* 代码块基本样式 */
 .prose pre, 
 .feedback-processor pre,
 .HtmlContentProcessor pre {
   position: relative !important;
-  padding-top: 2.5rem !important;
-  border-radius: 0.8rem !important;
-  background-color: #1e2127 !important;
-  margin: 1.5rem 0 !important;
+  background-color: #1c1c1c !important;
+  border-radius: 6px !important;
+  margin: 1rem 0 !important;
+  padding-top: 30px !important; /* 只为顶部圆点留空间 */
+  padding-bottom: 0.5rem !important;
   overflow: hidden !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-.prose pre:hover,
-.feedback-processor pre:hover,
-.HtmlContentProcessor pre:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
-
-/* 窗口顶部标题栏 - 全局 */
+/* 顶部圆点容器 */
 .prose pre::before,
 .feedback-processor pre::before,
 .HtmlContentProcessor pre::before {
@@ -357,16 +345,42 @@
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 2rem;
+  width: 100%;
+  height: 30px;
   background-color: #21252b;
-  border-top-left-radius: 0.8rem;
-  border-top-right-radius: 0.8rem;
-  color: #abb2bf;
-  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
-  font-size: 0.8rem;
-  line-height: 2rem;
-  z-index: 5;
+  z-index: 1;
+}
+
+/* 圆点样式 */
+.prose pre::after,
+.feedback-processor pre::after,
+.HtmlContentProcessor pre::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  width: 12px;
+  height: 12px;
+  background-color: #ff5f56; /* 红色 */
+  border-radius: 50%;
+  box-shadow: 20px 0 0 #ffbd2e, /* 黄色 */
+              40px 0 0 #27c93f; /* 绿色 */
+  z-index: 2;
+}
+
+/* 代码内容样式 */
+.prose pre code,
+.feedback-processor pre code,
+.HtmlContentProcessor pre code {
+  display: block !important;
+  padding: 0.5rem 1rem !important;
+  color: #ffffff !important;
+  font-family: 'Menlo', 'Monaco', 'Consolas', monospace !important;
+  font-size: 0.9rem !important;
+  line-height: 1.5 !important;
+  background-color: transparent !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
 }
 
 /* 强制应用Mac风格到所有代码块 */
@@ -380,85 +394,6 @@
 .HtmlContentProcessor pre[class*="language-"],
 .HtmlContentProcessor pre:not([class]) {
   background-color: #1c1c1c !important;
-}
-
-.prose pre code,
-.feedback-processor pre code,
-.HtmlContentProcessor pre code {
-  background-color: transparent !important;
-  padding: 1rem 1.5rem !important;
-  font-family: 'Menlo', 'Monaco', 'Consolas', monospace !important;
-  font-size: 0.9rem !important;
-  line-height: 1.5 !important;
-  display: block !important;
-  color: #ffffff !important;
-  white-space: pre !important;
-  overflow-x: auto !important;
-}
-
-/* 强制应用窗口控件到所有代码块 */
-.prose pre .window-controls,
-.prose .window-controls,
-.feedback-processor pre .window-controls,
-.feedback-processor .window-controls,
-.HtmlContentProcessor pre .window-controls,
-.HtmlContentProcessor .window-controls {
-  position: absolute !important;
-  top: 12px !important;
-  left: 15px !important;
-  width: 12px !important;
-  height: 12px !important;
-  z-index: 20 !important;
-}
-
-.prose pre .window-controls::after,
-.prose .window-controls::after,
-.feedback-processor pre .window-controls::after,
-.feedback-processor .window-controls::after,
-.HtmlContentProcessor pre .window-controls::after,
-.HtmlContentProcessor .window-controls::after {
-  content: '' !important;
-  position: absolute !important;
-  left: 0 !important;
-  top: 0 !important;
-  width: 12px !important;
-  height: 12px !important;
-  background-color: #ff5f56 !important;
-  box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f !important;
-  border-radius: 50% !important;
-  z-index: 10 !important;
-}
-
-/* 代码语言标签 */
-.prose pre::after {
-  content: attr(data-language);
-  position: absolute;
-  top: 0;
-  right: 0;
-  color: rgba(209, 213, 219, 0.8);
-  font-size: 0.75rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  background-color: rgba(17, 24, 39, 0.5);
-  padding: 0.25rem 0.5rem;
-  border-bottom-left-radius: 0.375rem;
-  z-index: 5;
-}
-
-/* 重置窗口按钮重复的样式 */
-.prose pre::after {
-  content: attr(data-language);
-  top: 0;
-  right: 0;
-  left: auto;
-  width: auto;
-  height: auto;
-  background-color: rgba(17, 24, 39, 0.5);
-  box-shadow: none;
-  border-radius: 0;
-  border-bottom-left-radius: 0.375rem;
-  color: rgba(209, 213, 219, 0.8);
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
 }
 
 /* 为Bash命令设置金色 */
@@ -493,45 +428,6 @@
 /* 注释行不显示提示符 */
 .prose pre code .bash-comment::before {
   content: none;
-}
-
-/* 代码高亮 - 关键字和命令使用金色 */
-.prose pre code .hljs-keyword,
-.prose pre code .hljs-built_in,
-.prose pre code .hljs-selector-tag,
-.prose pre code .hljs-name,
-.prose pre code .hljs-tag,
-.prose pre code .hljs-builtin-name {
-  color: #ffbd2e;
-  font-weight: bold;
-}
-
-/* 代码注释 */
-.prose pre code .hljs-comment,
-.prose pre code .hljs-quote {
-  color: #7f848e;
-  font-style: italic;
-}
-
-/* 字符串 */
-.prose pre code .hljs-string,
-.prose pre code .hljs-template-string {
-  color: #98c379;
-}
-
-/* 数字 */
-.prose pre code .hljs-number,
-.prose pre code .hljs-literal {
-  color: #d19a66;
-}
-
-/* 行内命令 */
-.prose code:not(pre code) {
-  color: #ffbd2e;
-  background-color: rgba(30, 33, 39, 0.5);
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.2rem;
-  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
 }
 
 /* 针对注释的样式 */
@@ -882,5 +778,5 @@ button:active:after {
 
 /* 代码背景图案 */
 .code-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9z'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
